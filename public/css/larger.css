@@ -1,0 +1,9 @@
+/* ===== Larger-screen-only media queries ===== */
+
+/* Desktop / small desktop: 1024px and up */
+@media (min-width: 1024px) {
+    .hero h2 {
+        font-size: 3.5rem;
+        color: red;
+    }
+}
