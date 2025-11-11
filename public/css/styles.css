@@ -1,21 +1,15 @@
-/******* Change Box Model ***************/
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
-  border: dashed 1px black;
-  margin: 0;
-  padding: 0;
-}
-
+/********** CSS Variables **********/
 :root {
-  --dark-background-color: #333;
-  --light-background-color: lightgray;
+  /**
+  * font families
+  **/
+  --primary-font: 'Poppins', sans-serif;
+  --secondary-font: 'Helvetica', sans-serif;
+
   /**
     * colors
     **/
-    --primary-color: #007bff;
+    --primary-color: #0064cf;
     --secondary-color: #6c757d;
     --success-color: #28a745;
     --danger-color: #dc3545;
@@ -25,12 +19,26 @@
     --dark-color: #343a40;
     --white-color: #ffffff;
     --black-color: #000000;
+    --dark-background-color: #333;
+    --light-background-color: lightgray;
 }
+
+/******* Change Box Model ***************/
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+  font-family: var(--primary-font);
+  /* border: dashed 1px black; */
+  margin: 0;
+  padding: 0;
+}
+
 
 /********** Header Styles **********/
 header {
   background: var(--white-color);
-  padding: 20px 0px;
+  padding: 20px 16px;
   text-align: center;
   display: flex;
   justify-content: space-between;
@@ -53,8 +61,7 @@ header {
 /********** Navigation Styles **********/
 nav {
   background: var(--dark-background-color);
-  padding: 0;
-
+  padding: 10px 0px;
 }
 
 nav ul {
@@ -67,7 +74,17 @@ nav ul li {
   list-style: none;
   padding: 10px;
   color: white;
+  text-align: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 15px 10px;
 } 
+
+/********** Main Content Styles **********/
+main {
+  min-height: 80vh;
+  padding: 20px;
+}
 
 /********** Hero Section Styles **********/
 .hero {
@@ -88,16 +105,30 @@ nav ul li {
     margin: 0 auto;
   }
 
+  & h1 {
+    font-size: 4lvw;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+
   & .text-content {
     background: rgba(90, 90, 90, 0.5);
     padding: 20px;
     position: absolute;
-    top: 50%;
-    left: 20%;
+    top: 35vw;
+    left: 25vw;
     transform: translate(-50%, -50%);
 
     & h2, & ul {
       color: white;
+    }
+
+    & ul li {
+      list-style: none;
+      text-decoration: none;
+      margin: 5px 0;
+      font-size: 1.2rem;
+      font-weight: 500;
     }
 
     & button {
@@ -110,4 +141,58 @@ nav ul li {
       cursor: pointer;
     }
   }
+}
+
+.reviews {
+  display: block;
+  align-items: center;
+  padding: 20px;
+}
+
+.upgrades {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  align-items: center;
+  padding: 10px 0px;
+
+  & figure {
+    margin: 8px;
+    text-align: center;
+    height: 180px;
+    background: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 0;
+    box-shadow: 0 0 4px var(--dark-background-color);
+    border-radius: 0px;
+
+    & img {
+      width: 100px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      border-radius: 0px;
+    }
+
+    & figcaption {
+      margin-top: 10px;
+      color: var(--white-color);
+
+      & a {
+        color: var(--white-color);
+        text-decoration: none;
+      }
+
+      & a:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+footer {
+  color: var(--black-color);
+  text-align: center;
+  padding: 10px 0px;
 }
