@@ -6,4 +6,33 @@
         font-size: 3.5rem;
         color: red;
     }
+
+    .delorean-sections {
+        display: flex;
+        flex-direction: row-reverse;
+        gap: 24px;
+        align-items: flex-start;
+    }
+
+    .reviews-section {
+        /* occupy one portion, allow shrinking, base width 300px */
+        flex: 1 0 300px;
+        padding: 20px;
+
+        & .reviews li {
+            font-size: 1.5rem;
+        }
+    }
+
+    .upgrades-section {
+        /* occupy two portions to give upgrades more room */
+        flex: 1 0 300px;
+    }
+
+    .upgrades {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 10px 0;
+    }
 }

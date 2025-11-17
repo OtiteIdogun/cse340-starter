@@ -63,7 +63,7 @@ header {
 /********** Navigation Styles **********/
 nav {
   background: var(--dark-background-color);
-  padding: 10px 0px;
+  padding: 0px;
 
   & ul {
     display: flex;
@@ -72,25 +72,31 @@ nav {
 
     & li {
       list-style: none;
-      padding: 10px;
       color: white;
       text-align: center;
       font-size: 1.2rem;
       cursor: pointer;
-      padding: 15px 10px;
-    } 
+      padding: 20px 8px;
+      min-width: 95px;
+      transition: background 0.3s ease;
+    }
+
+    & li:hover {
+      background: var(--primary-color-rgba);
+    }
   }
 }
 
 /********** Main Content Styles **********/
 main {
   min-height: 80vh;
-  padding: 20px;
+  padding: 20px 10px;
 }
 
 /********** Hero Section Styles **********/
 .hero {
-  
+  position: relative;
+ 
   & img {
     width: 100%;
     height: auto;
@@ -99,8 +105,9 @@ main {
   }
 
   & h1 {
-    font-size: 4lvw;
-    padding: 10px 20px;
+    font-size: 5lvw;
+    padding: 10px 20px 0 20px;
+    margin: 0;
     border-radius: 5px;
   }
 
@@ -108,11 +115,9 @@ main {
     background: rgba(255, 255, 255, 0.9);
     padding: clamp(12px, 3vw, 20px);
     position: absolute;
-    top: 60%;
-    left: 10em;
-    transform: translate(-50%, -60%);
+    top: 20%;
+    left: 2em;
     box-shadow: 0 0 10px var(--dark-background-color);
-    width: clamp(250px, 90%, 200px);
     border-radius: 0px;
 
     & h2, & ul li a {
@@ -142,15 +147,25 @@ main {
   }
 }
 
+/********** Sections Styles **********/
+section h2 {
+  font-size: 2.0rem;
+}
+
 .reviews {
   display: block;
   align-items: center;
   padding: 20px;
+
+  & li {
+    margin: 16px 0;
+    font-size: 1.1rem;
+  }
 }
 
 .upgrades {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   padding: 10px 0px;
 
@@ -190,8 +205,11 @@ main {
   }
 }
 
+/********** Footer Styles **********/
 footer {
   color: var(--black-color);
   text-align: center;
   padding: 10px 0px;
 }
+
+ 
