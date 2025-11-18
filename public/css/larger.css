@@ -10,33 +10,29 @@
     background-size: 48px 48px;
     background-position: 0 0, 0 0, 24px 24px, 24px 24px;
     padding: 28px;
-
-    & #wrapper {
-      max-width: 1024px;
-      margin: 0 auto;
-      background: var(--white-color);
-      border: 6px solid var(--primary-color-rgba);
-      border-radius: 8px;
-      padding: 8px;
-      box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.05), 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
   }
 
-  .hero {
-    & h2 {
-      font-size: 3.5rem;
-      color: red;
-    }
+  #wrapper {
+    max-width: 1024px;
+    margin: 0 auto;
+    background: var(--white-color);
+    border: 6px solid var(--primary-color-rgba);
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.05), 0 8px 20px rgba(0, 0, 0, 0.15);
   }
 
-  header {
-    & span a {
-      font-size: 2.5rem;
-    }
+  .hero h2 {
+    font-size: 3.5rem;
+    color: var(--primary-color);
+  }
 
-    & #tools a {
-      font-size: 1rem;
-    }
+  header span a {
+    font-size: 2.5rem;
+  }
+
+  header #tools a {
+    font-size: 1rem;
   }
 
   .delorean-sections {
@@ -48,12 +44,10 @@
 
   .reviews-section {
     flex: 1 0 300px;
+  }
 
-    & .reviews {
-      & li {
-        font-size: 1.4rem;
-      }
-    }
+  .reviews-section .reviews li {
+    font-size: 1.4rem;
   }
 
   .upgrades-section {

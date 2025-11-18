@@ -1,15 +1,11 @@
-/********** CSS Variables **********/
+/* Flattened, validator-friendly CSS (mobile-first) */
 :root {
-  /**
-  * font families
-  **/
+  /* font families */
   --primary-font: "Poppins", "Montserrat", sans-serif;
   --secondary-font: "Montserrat", sans-serif;
   --tertiary-font: "Helvetica", sans-serif;
 
-  /**
-    * colors
-    **/
+  /* colors */
   --primary-color: #0064cf;
   --primary-color-rgba: rgba(0, 150, 200, 0.9);
   --secondary-color: #6c757d;
@@ -25,182 +21,169 @@
   --light-background-color: lightgray;
 }
 
-/******* Change Box Model ***************/
 *,
-*:before,
-*:after {
+*::before,
+*::after {
   box-sizing: border-box;
   font-family: var(--primary-font);
-  /* border: 1px dotted #555; */
   margin: 0;
   padding: 0;
 }
 
-/********** Header Styles **********/
+/* Body & wrapper (mobile-first) */
+body {
+  background-color: var(--white-color);
+  margin: 0;
+  padding: 0;
+}
+
+#wrapper {
+  max-width: 100%;
+  margin: 0;
+  background: var(--white-color);
+  padding: 0 8px;
+}
+
+/* Header */
 header {
   background: var(--white-color);
   padding: 20px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  & a {
-    height: 50px;
-    color: var(--black-color);
-    text-decoration: none;
-    font-size: 1.2rem;
-    text-align: center;
-    cursor: pointer;
-  }
-
-  & span {
-    & a {
-      margin-left: 0px;
-      font-size: 2rem;
-      font-weight: bold;
-      text-align: left;
-    }
-  }
-
-  & #tools {
-    & a {
-      text-align: right;
-      font-size: 0.8rem;
-
-      &:hover {
-        text-decoration: underline;
-        color: var(--primary-color-rgba);
-      }
-    }
-  }
 }
 
-/********** Navigation Styles **********/
+header a {
+  height: 50px;
+  color: var(--black-color);
+  text-decoration: none;
+  font-size: 1.2rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+header span a {
+  margin-left: 0;
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: left;
+}
+
+header #tools a {
+  text-align: right;
+  font-size: 0.8rem;
+}
+
+header #tools a:hover {
+  text-decoration: underline;
+  color: var(--warning-color);
+}
+
+/* Navigation */
 nav {
   background: var(--dark-background-color);
   padding: 0;
-
-  & ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-
-    & li {
-      list-style: none;
-      color: white;
-      text-align: center;
-      font-size: 1.2rem;
-      cursor: pointer;
-      padding: 20px 8px;
-      min-width: 95px;
-      transition: background 0.3s ease;
-
-      &:hover {
-        background: var(--primary-color-rgba);
-      }
-    }
-  }
 }
 
-/********** Body & Wrapper Styles **********/
-body {
-  background-color: var(--white-color);
-  margin: 0;
-  padding: 0;
-
-  & #wrapper {
-    max-width: 100%;
-    margin: 0;
-    background: var(--white-color);
-    padding: 0 8px;
-  }
+nav ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
-/********** Main Content Styles **********/
+nav ul li {
+  list-style: none;
+  color: white;
+  text-align: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 20px 8px;
+  min-width: 95px;
+  transition: background .3s ease;
+}
+
+nav ul li:hover {
+  background: var(--primary-color-rgba);
+}
+
+/* Main */
 main {
   min-height: 80vh;
   padding: 20px 10px;
 }
 
-/********** Hero Section Styles **********/
+/* Hero */
 .hero {
   position: relative;
-
-  & img {
-    width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-  }
-
-  & h1 {
-    font-size: 5lvw;
-    padding: 10px 20px 0px 20px;
-    margin: 0;
-    border-radius: 5px;
-  }
-
-  & .text-content {
-    background: rgba(255, 255, 255, 0.9);
-    padding: clamp(12px, 3vw, 20px);
-    position: absolute;
-    top: 20%;
-    left: 4%;
-    box-shadow: 0px 0px 0px var(--dark-background-color);
-    border-radius: 0px;
-
-    & h2,
-    & ul li a {
-      color: var(--primary-color-rgba);
-      text-decoration: none;
-      font-weight: 800;
-    }
-
-    & ul {
-      & li {
-        list-style: none;
-        margin: 5px 0;
-        font-size: clamp(0.9rem, 2vw, 1.2rem);
-        font-weight: 500;
-      }
-    }
-
-    & button {
-      margin-top: 10px;
-      padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 16px);
-      background: var(--primary-color-rgba);
-      color: var(--white-color);
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: clamp(0.9rem, 2vw, 1rem);
-
-      &:hover {
-        background: linear-gradient(
-          var(--primary-color-rgba), 
-          var(--secondary-color)
-          );
-        }
-    }
-  }
 }
 
-/********** Sections Styles **********/
-section {
-  & h2 {
-    font-size: 1.5rem;
-  }
+.hero img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: 5vw;
+  padding: 10px 20px 0 20px;
+  margin: 0;
+  border-radius: 5px;
+}
+
+.hero .text-content {
+  background: rgba(255, 255, 255, 0.9);
+  padding: clamp(12px, 3vw, 20px);
+  position: absolute;
+  top: 20%;
+  left: 4%;
+  box-shadow: 0 0 0 var(--dark-background-color);
+  border-radius: 0;
+}
+
+.hero .text-content h2,
+.hero .text-content ul li a {
+  color: var(--primary-color-rgba);
+  text-decoration: none;
+  font-weight: 800;
+}
+
+.hero .text-content ul li {
+  list-style: none;
+  margin: 5px 0;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  font-weight: 500;
+}
+
+.hero .text-content button {
+  margin-top: 10px;
+  padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 16px);
+  background: var(--primary-color-rgba);
+  color: var(--white-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+}
+
+.hero .text-content button:hover {
+  background: var(--warning-color);
+}
+
+/* Sections */
+section h2 {
+  font-size: 1.5rem;
 }
 
 .reviews {
   display: block;
   align-items: center;
   padding: 20px;
+}
 
-  & li {
-    margin: 16px 0;
-    font-size: 1.1rem;
-  }
+.reviews li {
+  margin: 16px 0;
+  font-size: 1.1rem;
 }
 
 .upgrades {
@@ -208,44 +191,44 @@ section {
   grid-template-columns: 1fr 1fr;
   align-items: center;
   padding: 10px 0;
-
-  & figure {
-    margin: 8px;
-    text-align: center;
-    height: 180px;
-    background: var(--primary-color-rgba);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 10px 0;
-    box-shadow: 0 0 4px var(--dark-background-color);
-    border-radius: 0;
-
-    & img {
-      width: 100px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-      border-radius: 0;
-    }
-
-    & figcaption {
-      margin-top: 10px;
-      color: var(--white-color);
-
-      & a {
-        color: var(--white-color);
-        text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-  }
 }
 
-/********** Footer Styles **********/
+.upgrades figure {
+  margin: 8px;
+  text-align: center;
+  height: 180px;
+  background: var(--primary-color-rgba);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 0;
+  box-shadow: 0 0 4px var(--dark-background-color);
+  border-radius: 0;
+}
+
+.upgrades figure img {
+  width: 100px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 0;
+}
+
+.upgrades figure figcaption {
+  margin-top: 10px;
+  color: var(--white-color);
+}
+
+.upgrades figure figcaption a {
+  color: var(--white-color);
+  text-decoration: none;
+}
+
+.upgrades figure figcaption a:hover {
+  text-decoration: underline;
+}
+
+/* Footer */
 footer {
   color: var(--black-color);
   text-align: center;
