@@ -3,26 +3,26 @@
   /**
   * font families
   **/
-  --primary-font: 'Poppins', "Montserrat", sans-serif;
+  --primary-font: "Poppins", "Montserrat", sans-serif;
   --secondary-font: "Montserrat", sans-serif;
-  --tertiary-font: 'Helvetica', sans-serif;
+  --tertiary-font: "Helvetica", sans-serif;
 
   /**
     * colors
     **/
-    --primary-color: #0064cf;
-    --primary-color-rgba: rgba(0, 150, 200, 0.9);
-    --secondary-color: #6c757d;
-    --success-color: #28a745;
-    --danger-color: #dc3545;
-    --warning-color: #ffc107;
-    --info-color: #17a2b8;
-    --light-color: #f8f9fa;
-    --dark-color: #343a40;
-    --white-color: #ffffff;
-    --black-color: #000000;
-    --dark-background-color: #333;
-    --light-background-color: lightgray;
+  --primary-color: #0064cf;
+  --primary-color-rgba: rgba(0, 150, 200, 0.9);
+  --secondary-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+  --light-color: #f8f9fa;
+  --dark-color: #343a40;
+  --white-color: #ffffff;
+  --black-color: #000000;
+  --dark-background-color: #333;
+  --light-background-color: lightgray;
 }
 
 /******* Change Box Model ***************/
@@ -31,11 +31,10 @@
 *:after {
   box-sizing: border-box;
   font-family: var(--primary-font);
-  /*border: dashed 1px black;*/
+  /* border: 1px dotted #555; */
   margin: 0;
   padding: 0;
 }
-
 
 /********** Header Styles **********/
 header {
@@ -54,28 +53,32 @@ header {
     cursor: pointer;
   }
 
-  & span a {
-    margin-left: 0px;
-    font-size: 2.0rem;
-    font-weight: bold;
-    text-align: left;
+  & span {
+    & a {
+      margin-left: 0px;
+      font-size: 2rem;
+      font-weight: bold;
+      text-align: left;
+    }
   }
- 
-  & #tools a {
-    text-align: right;
-    font-size: 0.8rem;
-  }
-  
-  & #tools a:hover {
-    text-decoration: underline;
-    color: var(--warning-color);
+
+  & #tools {
+    & a {
+      text-align: right;
+      font-size: 0.8rem;
+
+      &:hover {
+        text-decoration: underline;
+        color: var(--primary-color-rgba);
+      }
+    }
   }
 }
 
 /********** Navigation Styles **********/
 nav {
   background: var(--dark-background-color);
-  padding: 0px;
+  padding: 0;
 
   & ul {
     display: flex;
@@ -91,11 +94,25 @@ nav {
       padding: 20px 8px;
       min-width: 95px;
       transition: background 0.3s ease;
-    }
 
-    & li:hover {
-      background: var(--primary-color-rgba);
+      &:hover {
+        background: var(--primary-color-rgba);
+      }
     }
+  }
+}
+
+/********** Body & Wrapper Styles **********/
+body {
+  background-color: var(--white-color);
+  margin: 0;
+  padding: 0;
+
+  & #wrapper {
+    max-width: 100%;
+    margin: 0;
+    background: var(--white-color);
+    padding: 0 8px;
   }
 }
 
@@ -108,7 +125,7 @@ main {
 /********** Hero Section Styles **********/
 .hero {
   position: relative;
- 
+
   & img {
     width: 100%;
     height: auto;
@@ -132,18 +149,20 @@ main {
     box-shadow: 0px 0px 0px var(--dark-background-color);
     border-radius: 0px;
 
-    & h2, & ul li a {
+    & h2,
+    & ul li a {
       color: var(--primary-color-rgba);
       text-decoration: none;
-      /* text-shadow: 2px 2px 4px #000000; */
       font-weight: 800;
     }
 
-    & ul li {
-      list-style: none;
-      margin: 5px 0;
-      font-size: clamp(0.9rem, 2vw, 1.2rem);
-      font-weight: 500;
+    & ul {
+      & li {
+        list-style: none;
+        margin: 5px 0;
+        font-size: clamp(0.9rem, 2vw, 1.2rem);
+        font-weight: 500;
+      }
     }
 
     & button {
@@ -155,17 +174,22 @@ main {
       border-radius: 5px;
       cursor: pointer;
       font-size: clamp(0.9rem, 2vw, 1rem);
-      
+
       &:hover {
-        background: var(--warning-color);
-      }
+        background: linear-gradient(
+          var(--primary-color-rgba), 
+          var(--secondary-color)
+          );
+        }
     }
   }
 }
 
 /********** Sections Styles **********/
-section h2 {
-  font-size: 1.5rem;
+section {
+  & h2 {
+    font-size: 1.5rem;
+  }
 }
 
 .reviews {
@@ -183,7 +207,7 @@ section h2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  padding: 10px 0px;
+  padding: 10px 0;
 
   & figure {
     margin: 8px;
@@ -195,16 +219,16 @@ section h2 {
     justify-content: space-between;
     padding: 10px 0;
     box-shadow: 0 0 4px var(--dark-background-color);
-    border-radius: 0px;
+    border-radius: 0;
 
     & img {
       width: 100px;
       height: auto;
       display: block;
       margin: 0 auto;
-      border-radius: 0px;
+      border-radius: 0;
     }
- 
+
     & figcaption {
       margin-top: 10px;
       color: var(--white-color);
@@ -212,10 +236,10 @@ section h2 {
       & a {
         color: var(--white-color);
         text-decoration: none;
-      }
 
-      & a:hover {
-        text-decoration: underline;
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }
@@ -225,7 +249,5 @@ section h2 {
 footer {
   color: var(--black-color);
   text-align: center;
-  padding: 10px 0px;
+  padding: 10px 0;
 }
-
- 
