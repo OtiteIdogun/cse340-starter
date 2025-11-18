@@ -26,6 +26,7 @@
 *::after {
   box-sizing: border-box;
   font-family: var(--primary-font);
+  border: 0px dotted black;
   margin: 0;
   padding: 0;
 }
@@ -76,7 +77,7 @@ header #tools a {
 
 header #tools a:hover {
   text-decoration: underline;
-  color: var(--warning-color);
+  color: var(--primary-color-rgba);
 }
 
 /* Navigation */
@@ -122,6 +123,7 @@ main {
   height: auto;
   display: block;
   margin: 0 auto;
+  max-width: 600px;
 }
 
 .hero h1 {
@@ -135,7 +137,7 @@ main {
   background: rgba(255, 255, 255, 0.9);
   padding: clamp(12px, 3vw, 20px);
   position: absolute;
-  top: 20%;
+  top: 25%;
   left: 4%;
   box-shadow: 0 0 0 var(--dark-background-color);
   border-radius: 0;
@@ -167,10 +169,14 @@ main {
 }
 
 .hero .text-content button:hover {
-  background: var(--warning-color);
+  background: linear-gradient(var(--primary-color-rgba) 0%, var(--secondary-color) 100%);
 }
 
 /* Sections */
+.delorean-sections {
+  margin: 2rem 0 0;
+}
+
 section h2 {
   font-size: 1.5rem;
 }
@@ -178,7 +184,7 @@ section h2 {
 .reviews {
   display: block;
   align-items: center;
-  padding: 20px;
+  padding: 0 20px;
 }
 
 .reviews li {

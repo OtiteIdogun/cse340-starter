@@ -9,6 +9,7 @@
       linear-gradient(-90deg, transparent 75%, var(--black-color) 75%);
     background-size: 48px 48px;
     background-position: 0 0, 0 0, 24px 24px, 24px 24px;
+    background: url("../images/site/checkerboard.jpg");
     padding: 28px;
   }
 
