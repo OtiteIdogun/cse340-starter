@@ -2,37 +2,47 @@
 
 /* Desktop / small desktop: 1024px and up */
 @media (min-width: 1024px) {
-    .hero h2 {
-        font-size: 3.5rem;
-        color: red;
+  .hero h2 {
+    font-size: 3.5rem;
+    color: red;
+  } 
+  
+  header {
+    & span a {
+      font-size: 2.5rem;
     }
-
-    .delorean-sections {
-        display: flex;
-        flex-direction: row-reverse;
-        gap: 24px;
-        align-items: flex-start;
+   
+    & #tools a {
+      font-size: 1.0rem;
     }
+  }
 
-    .reviews-section {
-        /* occupy one portion, allow shrinking, base width 300px */
-        flex: 1 0 300px;
-        padding: 20px;
 
-        & .reviews li {
-            font-size: 1.5rem;
-        }
+  .delorean-sections {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 34px;
+    align-items: flex-start;
+  }
+
+  .reviews-section {
+    /* occupy one portion, allow shrinking, base width 300px */
+    flex: 1 0 300px;
+
+    & .reviews li {
+      font-size: 1.5rem;
     }
+  }
 
-    .upgrades-section {
-        /* occupy two portions to give upgrades more room */
-        flex: 1 0 300px;
-    }
+  .upgrades-section {
+    /* occupy two portions to give upgrades more room */
+    flex: 1 0 300px;
+  }
 
-    .upgrades {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        padding: 10px 0;
-    }
+  .upgrades {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 10px 0;
+  }
 }
