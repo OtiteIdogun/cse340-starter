@@ -1,1 +1,10 @@
-// This is only meant to preserved the folder it resides in. It can be deleted when actual files are created and stored.
+const pool = require("../database/")
+
+/* ***************************
+ *  Get all classification data
+ * ************************** */
+async function getClassifications(){
+  return await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
+}
+
+module.exports = {getClassifications}

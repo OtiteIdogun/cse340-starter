@@ -1,1 +1,9 @@
-// This is only meant to preserved the folder it resides in. It can be deleted when actual files are created and stored.
+const utilities = require("../utilities/")
+const baseController = {}
+
+baseController.buildHome = async function(req, res){
+  const nav = await utilities.getNav()
+  res.render("index", {title: "Home", nav})
+}
+
+module.exports = baseController
