@@ -1,9 +1,18 @@
-const utilities = require("../utilities/")
-const baseController = {}
+// Import utility functions from the utilities module.
+const utilities = require("../utilities/");
 
-baseController.buildHome = async function(req, res){
-  const nav = await utilities.getNav()
-  res.render("index", {title: "Home", nav})
+// Initialize an empty object to hold controller methods.
+const baseController = {};
+
+// Define an asynchronous method 'buildHome' within the 'baseController' object,
+// which handles rendering the home page.
+baseController.buildHome = async function(req, res) {
+  // Call the 'getNav' function from the utilities module to fetch navigation data.
+  const nav = await utilities.getNav();
+  
+  // Render the 'index' view/template, passing the title and navigation data as context.
+  res.render("index", { title: "Home", nav });
 }
 
-module.exports = baseController
+// Export the 'baseController' object for use in other modules.
+module.exports = baseController;
