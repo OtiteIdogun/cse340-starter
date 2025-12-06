@@ -1,16 +1,3 @@
-// const pool = require("../database/")
-    
-// /* ****************************
-//  *  Get all classification data
-//  * ************************** */
-// async function getClassifications(){
-//   const result = await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
-//   return result.rows
-// }
-
-// module.exports = {getClassifications}
-
-
 /**
  * Inventory Model
  * Database queries for classification and inventory data

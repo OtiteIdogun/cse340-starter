@@ -33,9 +33,9 @@ const query = async (text, params) => {
   try {
     const result = await pool.query(text, params);
     if (process.env.NODE_ENV === "development") {
-      console.log("Query executed:", { text });
+      // console.log("Query executed:", { text });
+      return result;
     }
-    return result;
   } catch (error) {
     console.error("Database query error:", { text, error: error.message });
     throw error;
