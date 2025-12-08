@@ -1,4 +1,5 @@
 // Import the inventory model, which contains database interactions related to inventory.
+const { Template } = require("ejs");
 const invModel = require("../models/inventory-model");
 
 // Initialize an empty object to hold utility functions.
@@ -7,6 +8,22 @@ const Util = {};
 /* ============================================================================ *\
  * Constructs the nav HTML unordered list
 \* ============================================================================ */
+
+let templateLiteral = (data) => {
+  return `
+    <ul>
+      <li><a href="/" title="Home page">Home</a></li>
+      ${data.rows.map(row => `
+        <li>
+          <a href="/inv/type/${row.classification_id}" 
+             title="See our inventory of ${row.classification_name} vehicles">
+            ${row.classification_name}
+          </a>
+        </li>
+      `).join('')}
+    </ul>
+  `;
+};
 
 // Define an asynchronous method 'getNav' within the Util object,
 // which generates the navigation HTML as an unordered list.
@@ -34,7 +51,20 @@ Util.getNav = async function (req, res, next) {
       row.classification_name +
       "</a>";
 
+      // OR using template literals:
+      // list += `
+      //   <li>
+      //     <a href="/inv/type/${row.classification_id}" 
+      //       title="See our inventory of ${row.classification_name} vehicles">
+      //       ${row.classification_name}
+      //     </a>
+      //   </li>
+      // `;
+
     list += "</li>"; // Close the list item.
+
+    // // OR using the templateLiteral function:
+    // templateLiteral(data);
   });
 
   list += "</ul>"; // Close the unordered list.
