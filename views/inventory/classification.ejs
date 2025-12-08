@@ -1,0 +1,15 @@
+<% 
+  // Check if the 'title' variable is defined.
+  if (title) { 
+%>
+    <h1><%= title %></h1> <!-- Render the title within an H1 tag -->
+<% 
+  } else { 
+    // If 'title' is not defined, redirect to the home page.
+    res.redirect('/'); 
+  } 
+%>
+
+<%# messages() %>
+
+<%- grid %>
