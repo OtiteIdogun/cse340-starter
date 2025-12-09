@@ -19,6 +19,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
 
   // Fetch inventory data associated with the classification ID from the inventory model.
   const data = await invModel.getInventoryByClassificationId(classification_id);
+  // console.log(data);
   
   // Generate a grid display for the inventory items using a utility function.
   const grid = await utilities.buildClassificationGrid(data);

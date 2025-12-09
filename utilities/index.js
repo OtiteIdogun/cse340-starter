@@ -31,46 +31,46 @@ Util.getNav = async function (req, res, next) {
   // Fetch classifications data from the inventory model.
   let data = await invModel.getClassifications(); // Retrieve classification data from the database.
   
-  // Initialize a string to build the HTML for the navigation list.
-  let list = "<ul>";
+  // // Initialize a string to build the HTML for the navigation list.
+  // let list = "<ul>";
 
-  // Add a static "Home" link to the navigation list.
-  list += '<li><a href="/" title="Home page">Home</a></li>';
+  // // Add a static "Home" link to the navigation list.
+  // list += '<li><a href="/" title="Home page">Home</a></li>';
 
-  // Iterate over the rows of classification data to build the list items dynamically.
-  data.rows.forEach((row) => {
-    list += "<li>"; // Start a new list item.
+  // // Iterate over the rows of classification data to build the list items dynamically.
+  // data.rows.forEach((row) => {
+  //   list += "<li>"; // Start a new list item.
 
-    // Create a link for each classification, using its ID and name for dynamic content.
-    list +=
-      '<a href="/inv/type/' +
-      row.classification_id +
-      '" title="See our inventory of ' +
-      row.classification_name +
-      ' vehicles">' +
-      row.classification_name +
-      "</a>";
+  //   // Create a link for each classification, using its ID and name for dynamic content.
+  //   list +=
+  //     '<a href="/inv/type/' +
+  //     row.classification_id +
+  //     '" title="See our inventory of ' +
+  //     row.classification_name +
+  //     ' vehicles">' +
+  //     row.classification_name +
+  //     "</a>";
 
-      // OR using template literals:
-      // list += `
-      //   <li>
-      //     <a href="/inv/type/${row.classification_id}" 
-      //       title="See our inventory of ${row.classification_name} vehicles">
-      //       ${row.classification_name}
-      //     </a>
-      //   </li>
-      // `;
+  //     // OR using template literals:
+  //     // list += `
+  //     //   <li>
+  //     //     <a href="/inv/type/${row.classification_id}" 
+  //     //       title="See our inventory of ${row.classification_name} vehicles">
+  //     //       ${row.classification_name}
+  //     //     </a>
+  //     //   </li>
+  //     // `;
 
-    list += "</li>"; // Close the list item.
+  //   list += "</li>"; // Close the list item.
+  // });
 
-    // // OR using the templateLiteral function:
-    // templateLiteral(data);
-  });
+  // list += "</ul>"; // Close the unordered list.
 
-  list += "</ul>"; // Close the unordered list.
+  // // Return the constructed HTML as a string.
+  // return list;
 
-  // Return the constructed HTML as a string.
-  return list;
+  // OR using the templateLiteral function:
+  return navTemplateLiteral(data);
 }
 
 // console.log("Utilities loaded:", Util.getNav());
@@ -114,60 +114,60 @@ let classificationGridTemplateLiteral = (data) => {
 Util.buildClassificationGrid = async function(data) {
   let grid; // Initialize a variable to hold the HTML string for the grid.
 
-  // Check if there are any vehicle data entries.
-  if (data.length > 0) {
-    // Start building the unordered list for inventory display.
-    grid = '<ul id="inv-display">';
-
-    // Loop through each vehicle in the data array to create list items.
-    data.forEach(vehicle => { 
-      grid += '<li>'; // Start a new list item.
-
-      // Create a link for each vehicle that points to its detailed view.
-      grid += '<a href="../../inv/detail/' + vehicle.inv_id 
-        + '" title="View ' + vehicle.inv_make + ' ' + vehicle.inv_model 
-        + ' details"><img src="' + vehicle.inv_thumbnail 
-        + '" alt="Image of ' + vehicle.inv_make + ' ' + vehicle.inv_model 
-        + ' on CSE Motors" /></a>'; // Add vehicle thumbnail image with a link.
-
-      // Add a div to display the vehicle name and price.
-      grid += '<div class="namePrice">';
-      grid += '<hr />'; // Horizontal rule for separation.
-      grid += '<h2>'; // Start the heading for vehicle name.
-      
-      // Create a link for the vehicle name pointing to its detail page.
-      grid += '<a href="../../inv/detail/' + vehicle.inv_id + '" title="View ' 
-        + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
-        + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'; // Vehicle make and model.
-
-      grid += '</h2>'; // Close the heading.
-      grid += '<span>$' 
-        + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'; // Format and display the price.
-      grid += '</div>'; // Close the div for name and price.
-      grid += '</li>'; // Close the list item.
-    });
-
-    grid += '</ul>'; // Close the unordered list.
-  } else { 
-    // Handle the case where no vehicles are found.
-    grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>'; // Display a notice message.
-  }
-  
-  // Return the constructed HTML string for the inventory grid.
-  return grid;
-
-  // // OR using the buildClassificationGridTemplate function:
   // // Check if there are any vehicle data entries.
   // if (data.length > 0) {
-  //   // Use the function to build the HTML for the grid
-  //   grid = buildClassificationGridTemplate(data); // Retain the grid variable
-  // } else {
+  //   // Start building the unordered list for inventory display.
+  //   grid = '<ul id="inv-display">';
+
+  //   // Loop through each vehicle in the data array to create list items.
+  //   data.forEach(vehicle => { 
+  //     grid += '<li>'; // Start a new list item.
+
+  //     // Create a link for each vehicle that points to its detailed view.
+  //     grid += '<a href="../../inv/detail/' + vehicle.inv_id 
+  //       + '" title="View ' + vehicle.inv_make + ' ' + vehicle.inv_model 
+  //       + ' details"><img src="' + vehicle.inv_thumbnail 
+  //       + '" alt="Image of ' + vehicle.inv_make + ' ' + vehicle.inv_model 
+  //       + ' on CSE Motors" /></a>'; // Add vehicle thumbnail image with a link.
+
+  //     // Add a div to display the vehicle name and price.
+  //     grid += '<div class="namePrice">';
+  //     grid += '<hr />'; // Horizontal rule for separation.
+  //     grid += '<h2>'; // Start the heading for vehicle name.
+      
+  //     // Create a link for the vehicle name pointing to its detail page.
+  //     grid += '<a href="../../inv/detail/' + vehicle.inv_id + '" title="View ' 
+  //       + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
+  //       + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'; // Vehicle make and model.
+
+  //     grid += '</h2>'; // Close the heading.
+  //     grid += '<span>$' 
+  //       + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'; // Format and display the price.
+  //     grid += '</div>'; // Close the div for name and price.
+  //     grid += '</li>'; // Close the list item.
+  //   });
+
+  //   grid += '</ul>'; // Close the unordered list.
+  // } else { 
   //   // Handle the case where no vehicles are found.
   //   grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>'; // Display a notice message.
   // }
   
   // // Return the constructed HTML string for the inventory grid.
   // return grid;
+
+  // OR using the buildClassificationGridTemplate function:
+  // Check if there are any vehicle data entries.
+  if (data.length > 0) {
+    // Use the function to build the HTML for the grid
+    grid = classificationGridTemplateLiteral(data); // Store the HTML in a variable
+  } else {
+    // Handle the case where no vehicles are found.
+    grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>'; // Display a notice message.
+  }
+  
+  // Return the constructed HTML string for the inventory grid.
+  return grid;
 }
 
 // Export the Util object for use in other modules.

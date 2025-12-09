@@ -1,4 +1,9 @@
-/* Flattened, validator-friendly CSS (mobile-first) */
+/* styles.css  2024-06-10 12:00:00.000000000 +0000 */
+/* Author: Firstname Lastname */
+
+/* ============================================================== *
+ Flattened, validator-friendly CSS (mobile-first) 
+ ============================================================== */
 :root {
   /* font families */
   --primary-font: "Poppins", "Montserrat", sans-serif;
@@ -18,7 +23,8 @@
   --white-color: #ffffff;
   --black-color: #000000;
   --dark-background-color: #333;
-  --light-background-color: lightgray;
+  --light-background-color: #f0f0f0;
+  --border-color: #e0e0e0;
 }
 
 *,
@@ -26,7 +32,6 @@
 *::after {
   box-sizing: border-box;
   font-family: var(--primary-font);
-  border: 0px dotted black;
   margin: 0;
   padding: 0;
 }
@@ -52,6 +57,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 2px solid var(--border-color);
 }
 
 header a {
@@ -80,7 +86,9 @@ header #tools a:hover {
   color: var(--primary-color-rgba);
 }
 
-/* Navigation */
+/* ============================================================ *
+ Navigation Styles 
+ ============================================================== */
 nav {
   background: var(--dark-background-color);
   padding: 0;
@@ -90,6 +98,7 @@ nav ul {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 
 nav ul li {
@@ -97,6 +106,7 @@ nav ul li {
   text-align: center;
   padding: 20px 8px;
   min-width: 95px;
+  cursor: pointer;
   transition: background .3s ease;
 }
 
@@ -108,7 +118,6 @@ nav ul li a {
   color: white;
   font-size: 1.2rem;
   text-decoration: none;
-  cursor: pointer;
   transition: background .3s ease;
 }
 
@@ -117,13 +126,17 @@ nav ul li a:hover {
   color: var(--white-color);
 }
 
-/* Main */
+/* ============================================================ *
+ Main Styles 
+ ============================================================== */
 main {
   min-height: 80vh;
   padding: 20px 10px;
 }
 
-/* Hero */
+/* ============================================================ *
+ Hero Styles 
+ ============================================================== */
 .hero {
   position: relative;
 }
@@ -182,7 +195,9 @@ main {
   background: linear-gradient(var(--primary-color-rgba) 0%, var(--secondary-color) 100%);
 }
 
-/* Sections */
+/* ============================================================ *
+ Section Styles 
+ ============================================================== */
 .delorean-sections {
   margin: 2rem 0 0;
 }
@@ -244,9 +259,136 @@ section h2 {
   text-decoration: underline;
 }
 
-/* Footer */
+/* ============================================================ * 
+ * Main Styles Enhancements 
+ ============================================================== */
+
+main {
+  min-height: 80vh;
+  padding: 20px;
+  background: var(--white-color);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* ============================================================== *
+ Page Title Styles 
+ ============================================================== */
+
+h1 {
+  text-align: center;
+  color: var(--primary-color);
+  font-size: 2.2rem;
+  margin: 20px 0 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+/* ============================================================== *
+ Inventory Display Styles 
+ ============================================================== */
+
+#inv-display {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+#inv-display li {
+  margin: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--white-color);
+  text-align: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#inv-display li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 100, 207, 0.15);
+  border-color: var(--primary-color);
+}
+
+/* ============================================================== *
+ Inventory Image Styles 
+ ============================================================== */
+
+#inv-display img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  border-radius: 8px 8px 0 0;
+  background-color: var(--light-background-color);
+}
+
+/* ============================================================== *
+ Vehicle Name and Price Styles 
+ ============================================================== */
+
+.namePrice {
+  padding: 20px 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.namePrice h2 {
+  color: var(--primary-color);
+  font-size: 1.4rem;
+  margin: 0 0 10px;
+  font-weight: 600;
+}
+
+.namePrice h2 a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.namePrice h2 a:hover {
+  color: #004a99;
+  text-decoration: underline;
+}
+
+.namePrice span {
+  font-size: 1.8rem;
+  color: var(--success-color);
+  font-weight: bold;
+  margin-top: 10px;
+  display: block;
+}
+
+/* ============================================================== *
+ Horizontal Rule Style 
+ ============================================================== */
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 15px 0;
+}
+
+/* ============================================================== *
+ Footer Styles
+ ============================================================== */
+
 footer {
   color: var(--black-color);
   text-align: center;
-  padding: 10px 0;
+  padding: 20px 0;
+  margin-top: 40px;
+  border-top: 2px solid var(--border-color);
+  font-size: 0.9rem;
 }
