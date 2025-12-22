@@ -1,7 +1,7 @@
 /* styles.css  2024-06-10 12:00:00.000000000 +0000 */
 /* Author: Firstname Lastname */
 
-/* ============================================================== *
+/* ============================================================ *
  Flattened, validator-friendly CSS (mobile-first) 
  ============================================================== */
 :root {
@@ -34,11 +34,15 @@
   font-family: var(--primary-font);
   margin: 0;
   padding: 0;
+  border: 0px dotted black;
 }
 
-/* Body & wrapper (mobile-first) */
+/* ============================================================ *
+  Body & wrapper (mobile-first) 
+ ============================================================== */
 body {
   background-color: var(--white-color);
+  color: var(--black-color); /* Added color for body */
   margin: 0;
   padding: 0;
 }
@@ -47,12 +51,16 @@ body {
   max-width: 100%;
   margin: 0;
   background: var(--white-color);
+  color: var(--black-color); /* Added color for wrapper */
   padding: 0 8px;
 }
 
-/* Header */
+/* ============================================================ *
+ Header 
+ ============================================================== */
 header {
   background: var(--white-color);
+  color: var(--black-color); /* Added color for header */
   padding: 20px 16px;
   display: flex;
   justify-content: space-between;
@@ -63,6 +71,7 @@ header {
 header a {
   height: 50px;
   color: var(--black-color);
+  background-color: transparent; /* Added background-color */
   text-decoration: none;
   font-size: 1.2rem;
   text-align: center;
@@ -91,6 +100,7 @@ header #tools a:hover {
  ============================================================== */
 nav {
   background: var(--dark-background-color);
+  color: var(--white-color); /* Added color for nav */
   padding: 0;
 }
 
@@ -98,7 +108,7 @@ nav ul {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 nav ul li {
@@ -108,6 +118,8 @@ nav ul li {
   min-width: 95px;
   cursor: pointer;
   transition: background .3s ease;
+  background-color: transparent; /* Added background-color */
+  color: var(--white-color); /* Added color */
 }
 
 nav ul li:hover {
@@ -116,6 +128,7 @@ nav ul li:hover {
 
 nav ul li a {
   color: white;
+  background-color: transparent; /* Added background-color */
   font-size: 1.2rem;
   text-decoration: none;
   transition: background .3s ease;
@@ -154,14 +167,17 @@ main {
   padding: 10px 20px 0 20px;
   margin: 0;
   border-radius: 5px;
+  background-color: transparent; /* Added background-color */
+  color: var(--primary-color-rgba); /* Added color */
 }
 
 .hero .text-content {
   background: rgba(255, 255, 255, 0.9);
+  color: var(--black-color); /* Added color */
   padding: clamp(12px, 3vw, 20px);
   position: absolute;
   top: 25%;
-  left: 4%;
+  left: 0%;
   box-shadow: 0 0 0 var(--dark-background-color);
   border-radius: 0;
 }
@@ -169,6 +185,7 @@ main {
 .hero .text-content h2,
 .hero .text-content ul li a {
   color: var(--primary-color-rgba);
+  background-color: transparent; /* Added background-color */
   text-decoration: none;
   font-weight: 800;
 }
@@ -178,6 +195,8 @@ main {
   margin: 5px 0;
   font-size: clamp(0.9rem, 2vw, 1.2rem);
   font-weight: 500;
+  background-color: transparent; /* Added background-color */
+  color: var(--black-color); /* Added color */
 }
 
 .hero .text-content button {
@@ -204,6 +223,8 @@ main {
 
 section h2 {
   font-size: 1.5rem;
+  background-color: transparent; /* Added background-color */
+  color: var(--black-color); /* Added color */
 }
 
 .reviews {
@@ -215,6 +236,8 @@ section h2 {
 .reviews li {
   margin: 16px 0;
   font-size: 1.1rem;
+  background-color: transparent; /* Added background-color */
+  color: var(--black-color); /* Added color */
 }
 
 .upgrades {
@@ -229,6 +252,7 @@ section h2 {
   text-align: center;
   height: 180px;
   background: var(--primary-color-rgba);
+  color: var(--white-color); /* Added color */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -248,10 +272,12 @@ section h2 {
 .upgrades figure figcaption {
   margin-top: 10px;
   color: var(--white-color);
+  background-color: transparent; /* Added background-color */
 }
 
 .upgrades figure figcaption a {
   color: var(--white-color);
+  background-color: transparent; /* Added background-color */
   text-decoration: none;
 }
 
@@ -259,30 +285,17 @@ section h2 {
   text-decoration: underline;
 }
 
-/* ============================================================ * 
- * Main Styles Enhancements 
- ============================================================== */
-
-main {
-  min-height: 80vh;
-  padding: 20px;
-  background: var(--white-color);
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
 /* ============================================================== *
  Page Title Styles 
  ============================================================== */
 
 h1 {
-  text-align: center;
-  color: var(--primary-color);
-  font-size: 2.2rem;
+  text-align: left;
+  color: var(--primary-color-rgba);
+  background-color: transparent; /* Added background-color */
+  font-size: 1.8rem;
   margin: 20px 0 30px;
   padding-bottom: 15px;
-  border-bottom: 2px solid var(--border-color);
 }
 
 /* ============================================================== *
@@ -300,9 +313,9 @@ h1 {
 
 #inv-display li {
   margin: 0;
-  border: 1px solid var(--border-color);
   border-radius: 8px;
   background: var(--white-color);
+  color: var(--black-color); /* Added color */
   text-align: center;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
@@ -315,7 +328,6 @@ h1 {
 #inv-display li:hover {
   transform: translateY(-5px);
   box-shadow: 0 6px 15px rgba(0, 100, 207, 0.15);
-  border-color: var(--primary-color);
 }
 
 /* ============================================================== *
@@ -324,7 +336,7 @@ h1 {
 
 #inv-display img {
   width: 100%;
-  height: 200px;
+  height: 180px;
   object-fit: cover;
   display: block;
   border-radius: 8px 8px 0 0;
@@ -341,31 +353,34 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: transparent; /* Added background-color */
 }
 
 .namePrice h2 {
-  color: var(--primary-color);
-  font-size: 1.4rem;
+  color: var(--primary-color-rgba);
+  background-color: transparent; /* Added background-color */
+  font-size: 1.2rem;
   margin: 0 0 10px;
   font-weight: 600;
 }
 
 .namePrice h2 a {
-  color: var(--primary-color);
+  color: var(--primary-color-rgba);
+  background-color: transparent; /* Added background-color */
   text-decoration: none;
   transition: color 0.3s;
 }
 
 .namePrice h2 a:hover {
-  color: #004a99;
+  color: var(--secondary-color);
   text-decoration: underline;
 }
 
 .namePrice span {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   color: var(--success-color);
+  background-color: transparent; /* Added background-color */
   font-weight: bold;
-  margin-top: 10px;
   display: block;
 }
 
@@ -375,9 +390,105 @@ h1 {
 
 hr {
   border: none;
-  height: 1px;
+  height: 4px;
   background-color: var(--border-color);
   margin: 15px 0;
+}
+
+/* ============================================================== *
+ Vehicle Detail Page Styles (NEW - based on image)
+ ============================================================== */
+
+/* Container for the entire vehicle detail section */
+.vehicle-detail-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  max-width: 1200px;
+  margin: auto;
+  padding: 0;
+  place-content: center;
+  background-color: transparent; /* Added background-color */
+}
+
+/* Main image container */
+.vehicle-image-container {
+  flex: 3 0 300px;
+  text-align: center;
+  margin: 0 0 0px 0;
+  padding: 0px;
+  background-color: var(--white-color);
+  color: var(--black-color); /* Added color */
+  place-content: center;
+}
+
+/* Vehicle image styling */
+.vehicle-image-container img {
+  max-width: 100%;
+  height: auto;
+  max-height: 400px;
+  border-radius: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Details container styling */
+.vehicle-details {
+  flex: 1 0 300px;
+  background-color: var(--white-color);
+  color: var(--black-color); /* Added color */
+  padding: 0 0px;
+  border-radius: 0px;
+}
+
+/* Price styling - large and prominent */
+.vehicle-details .price {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--success-color);
+  background-color: transparent; /* Added background-color */
+  text-align: left;
+  margin: 0 0 0px 0;
+  padding: 0 0 15px 0;
+}
+
+/* Individual detail item styling */
+.vehicle-details p {
+  font-size: 1.2rem;
+  margin-bottom: 0px;
+  line-height: 1.6;
+  padding: 15px 0;
+  border-bottom: 1px dashed var(--border-color);
+  background-color: transparent; /* Added background-color */
+  color: var(--black-color); /* Added color */
+}
+
+/* Last detail item shouldn't have bottom border */
+.vehicle-details p:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 10px;
+}
+
+/* Strong text within details */
+.vehicle-details strong {
+  color: var(--primary-color);
+  background-color: transparent; /* Added background-color */
+  font-weight: 700;
+  display: inline-block;
+  min-width: 120px;
+}
+
+/* Description styling - special treatment */
+.vehicle-details .description {
+  font-size: 1.4rem;
+  line-height: 1.7;
+  padding: 20px;
+  background-color: var(--white-color);
+  color: var(--black-color); /* Added color */
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+  margin-top: 10px;
 }
 
 /* ============================================================== *
@@ -386,9 +497,10 @@ hr {
 
 footer {
   color: var(--black-color);
+  background-color: var(--white-color); /* Added background-color */
   text-align: center;
   padding: 20px 0;
   margin-top: 40px;
-  border-top: 2px solid var(--border-color);
+  border-top: 1px solid var(--border-color);
   font-size: 0.9rem;
 }

@@ -28,13 +28,32 @@ invCont.buildByClassificationId = async function (req, res, next) {
   let nav = await utilities.getNav();
   
   // Extract the classification name for setting the page title.
-  const className = data[0].classification_name;
+  const className = data[0].classification_name; // OR data.classification_name;
   
   // Render the inventory view for the specific classification using the provided data.
   res.render("./inventory/classification", {
-    title: className + " vehicles", // Set the title of the rendered page dynamically.
+    title: className + " Vehicles", // Set the title of the rendered page dynamically.
     nav, // Pass the navigation data to the template.
     grid, // Pass the grid data for displaying the inventory items.
+  });
+}
+
+invCont.buildByInvId = async function (req, res, next) {
+  const inv_id = req.params.invId;
+  // console.log("(invController.js) inv_id from req.params:", inv_id);
+
+  const carData = await invModel.getInventoryItemDetailsById(inv_id);
+  // console.log("(invController.js) carData from invModel:", carData);
+
+  let navigation = await utilities.getNav();
+  let carDetails = await utilities.buildInventoryItemDetailPage(carData);
+
+  // console.log("(invController.js) carDetails being passed to template:", carDetails);
+
+  res.render("./inventory/detail", {
+    title: `${carData[0].inv_year} ${carData[0].inv_make} ${carData[0].inv_model}`,
+    nav: navigation,
+    carDetails: carDetails,
   });
 }
 

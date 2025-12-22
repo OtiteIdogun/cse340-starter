@@ -12,7 +12,7 @@ baseController.buildHome = async function(req, res) {
   
   // Render the 'index' view/template, passing the title and navigation data as context.
   res.render("index", { title: "Home", nav });
-}
+};
 
 // Export the 'baseController' object for use in other modules.
 module.exports = baseController;

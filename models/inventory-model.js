@@ -38,5 +38,32 @@ async function getInventoryByClassificationId(classification_id) {
   }
 }
 
+// getInventoryByClassificationId(2);
+
+async function getInventoryItemDetailsById(inv_id) {
+  try {
+    const data = await pool.query(
+      `SELECT * FROM public.inventory AS i 
+      JOIN public.classification AS c 
+      ON i.classification_id = c.classification_id 
+      WHERE i.inv_id = $1`,  // Use a parameterized query to prevent SQL injection.
+      [inv_id] // Bind the inventory ID to the query.
+    );
+
+    // console.log("(models/inventory-model.js) getInventoryItemDetailsById", data.rows);
+
+    // Return the rows of data retrieved from the query.
+    return data.rows; // This contains the inventory item and its associated classification name.
+  } catch (error) {
+    // Log any errors encountered during the database query execution.
+    console.error("getInventoryItemDetailsById error: " + error);
+  }
+}
+
+// getInventoryItemDetailsById(2);
+
+/* ============================================================================ *
+ * Exported Functions
+ * ============================================================================ */
 // Export the 'getClassifications' function for use in other modules.
-module.exports = { getClassifications , getInventoryByClassificationId };
+module.exports = { getClassifications , getInventoryByClassificationId, getInventoryItemDetailsById };

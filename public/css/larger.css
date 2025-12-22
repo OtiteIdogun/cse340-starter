@@ -5,14 +5,7 @@
 @media (min-width: 1024px) {
   body {
     background-color: var(--white-color);
-    background-image:
-      linear-gradient(45deg, var(--black-color) 25%, transparent 25%),
-      linear-gradient(-90deg, var(--black-color) 25%, transparent 25%),
-      linear-gradient(45deg, transparent 75%, var(--black-color) 75%),
-      linear-gradient(-90deg, transparent 75%, var(--black-color) 75%);
-    background-size: 48px 48px;
-    background-position: 0 0, 0 0, 24px 24px, 24px 24px;
-    background: url("../images/site/checkerboard.jpg");
+    background-image: url("../images/site/checkerboard.jpg");
     padding: 28px;
   }
 
@@ -26,9 +19,22 @@
     box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.05), 0 8px 20px rgba(0, 0, 0, 0.15);
   }
 
+  main {
+    padding: 20px;
+  }
+
+  h1 {
+    text-align: left;
+    color: var(--primary-color-rgba);
+    font-size: 2.2rem;
+    margin: 20px 0 30px;
+    padding-bottom: 15px;
+  }
+
   .hero h2 {
     font-size: 3.5rem;
     color: var(--primary-color);
+    background-color: transparent; /* Added background-color */
   }
 
   header span a {
@@ -64,5 +70,4 @@
     gap: 12px;
     padding: 10px 0;
   }
-  
 }

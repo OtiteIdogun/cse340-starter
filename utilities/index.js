@@ -1,6 +1,7 @@
 // Import the inventory model, which contains database interactions related to inventory.
 const { Template } = require("ejs");
 const invModel = require("../models/inventory-model");
+const e = require("express");
 
 // Initialize an empty object to hold utility functions.
 const Util = {};
@@ -31,49 +32,10 @@ Util.getNav = async function (req, res, next) {
   // Fetch classifications data from the inventory model.
   let data = await invModel.getClassifications(); // Retrieve classification data from the database.
   
-  // // Initialize a string to build the HTML for the navigation list.
-  // let list = "<ul>";
-
-  // // Add a static "Home" link to the navigation list.
-  // list += '<li><a href="/" title="Home page">Home</a></li>';
-
-  // // Iterate over the rows of classification data to build the list items dynamically.
-  // data.rows.forEach((row) => {
-  //   list += "<li>"; // Start a new list item.
-
-  //   // Create a link for each classification, using its ID and name for dynamic content.
-  //   list +=
-  //     '<a href="/inv/type/' +
-  //     row.classification_id +
-  //     '" title="See our inventory of ' +
-  //     row.classification_name +
-  //     ' vehicles">' +
-  //     row.classification_name +
-  //     "</a>";
-
-  //     // OR using template literals:
-  //     // list += `
-  //     //   <li>
-  //     //     <a href="/inv/type/${row.classification_id}" 
-  //     //       title="See our inventory of ${row.classification_name} vehicles">
-  //     //       ${row.classification_name}
-  //     //     </a>
-  //     //   </li>
-  //     // `;
-
-  //   list += "</li>"; // Close the list item.
-  // });
-
-  // list += "</ul>"; // Close the unordered list.
-
-  // // Return the constructed HTML as a string.
-  // return list;
-
-  // OR using the templateLiteral function:
   return navTemplateLiteral(data);
 }
 
-// console.log("Utilities loaded:", Util.getNav());
+// console.log("Utili ties loaded:", Util.getNav());
 
 let classificationGridTemplateLiteral = (data) => {
   // Check if data has entries
@@ -84,8 +46,9 @@ let classificationGridTemplateLiteral = (data) => {
           <li>
             <a href="../../inv/detail/${vehicle.inv_id}" 
                title="View ${vehicle.inv_make} ${vehicle.inv_model} details">
-              <img src="${vehicle.inv_thumbnail}" 
-                   alt="Image of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors" />
+              <img src="${vehicle.inv_image}" 
+                   alt="Image of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors" 
+                   width="300"/>
             </a>
             <div class="namePrice">
               <hr />
@@ -112,63 +75,79 @@ let classificationGridTemplateLiteral = (data) => {
 
 // Define an asynchronous function in the Util object to build HTML for the classification grid.
 Util.buildClassificationGrid = async function(data) {
-  let grid; // Initialize a variable to hold the HTML string for the grid.
+  // Return the constructed HTML string for the inventory grid.
+  return classificationGridTemplateLiteral(data);
+}
 
-  // // Check if there are any vehicle data entries.
-  // if (data.length > 0) {
-  //   // Start building the unordered list for inventory display.
-  //   grid = '<ul id="inv-display">';
+/* ============================================================================ *
 
-  //   // Loop through each vehicle in the data array to create list items.
-  //   data.forEach(vehicle => { 
-  //     grid += '<li>'; // Start a new list item.
+ * Middleware (Any Function) For Handling Errors
+ * 
+ * This middleware function is designed to wrap other asynchronous functions 
+ * (such as route handlers) to handle errors that may occur during their execution.
+ * 
+ * General Error Handling:
+ * - It converts the input function (`fn`) into a middleware function that can handle 
+ *   both the request and response objects, as well as the `next` function for 
+ *   error propagation.
+ * 
+ * How It Works:
+ * 1. The wrapped function (`fn`) is called with the request (`req`), response (`res`), 
+ *    and next middleware function (`next`).
+ * 2. The Promise.resolve() method is used to ensure that the function can handle both 
+ *    synchronous and asynchronous code execution for request processing.
+ * 3. If the function executes successfully (successfully completes request processing), 
+ *    it returns the promise resolves without any issues.
+ * 4. If any error occurs, the `.catch(next)` method catches it and calls the `next` 
+ *    function with the error object, allowing the error-handling middleware to process it.
+ * 
+ * Usage:
+ * - This utility can be used to wrap route handlers to ensure that any errors 
+ *   they throw are correctly passed to the Express error-handling middleware.
+ * ============================================================================ */
+Util.handleErrors = fn => ( 
+  (req, res, next) => 
+  Promise.resolve(fn(req, res, next))
+         .catch(next)
+);
 
-  //     // Create a link for each vehicle that points to its detailed view.
-  //     grid += '<a href="../../inv/detail/' + vehicle.inv_id 
-  //       + '" title="View ' + vehicle.inv_make + ' ' + vehicle.inv_model 
-  //       + ' details"><img src="' + vehicle.inv_thumbnail 
-  //       + '" alt="Image of ' + vehicle.inv_make + ' ' + vehicle.inv_model 
-  //       + ' on CSE Motors" /></a>'; // Add vehicle thumbnail image with a link.
 
-  //     // Add a div to display the vehicle name and price.
-  //     grid += '<div class="namePrice">';
-  //     grid += '<hr />'; // Horizontal rule for separation.
-  //     grid += '<h2>'; // Start the heading for vehicle name.
-      
-  //     // Create a link for the vehicle name pointing to its detail page.
-  //     grid += '<a href="../../inv/detail/' + vehicle.inv_id + '" title="View ' 
-  //       + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
-  //       + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'; // Vehicle make and model.
+let inventoryItemDetailTemplateLiteral = (carData) => {
+  carData = carData[0]; // Object is in an array: Extract the first object from the array
 
-  //     grid += '</h2>'; // Close the heading.
-  //     grid += '<span>$' 
-  //       + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'; // Format and display the price.
-  //     grid += '</div>'; // Close the div for name and price.
-  //     grid += '</li>'; // Close the list item.
-  //   });
+  if (carData && Object.keys(carData).length > 0) {
+    return `
+      <div class="vehicle-detail-container">
+        <div class="vehicle-image-container">
+          <img src="${carData.inv_image}" alt="Image of ${carData.inv_make} ${carData.inv_model}" class="vehicle-image">
+        </div>
+        
+        <div class="vehicle-details">
+          <p class="price">Price: $${new Intl.NumberFormat('en-US').format(carData.inv_price)}</p>
+          <p><strong>Description:</strong> ${carData.inv_description}</p>
+          <p><strong>Color:</strong> ${carData.inv_color}</p>
+          <p><strong>Mileage:</strong> ${new Intl.NumberFormat('en-US').format(carData.inv_miles)} miles</p>
+        </div>
+      </div>
+    `;
+  } else {
+    return '<p class="notice">Sorry, no matching vehicles could be found.</p>';
+  }
+};
 
-  //   grid += '</ul>'; // Close the unordered list.
-  // } else { 
-  //   // Handle the case where no vehicles are found.
-  //   grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>'; // Display a notice message.
-  // }
-  
-  // // Return the constructed HTML string for the inventory grid.
-  // return grid;
-
-  // OR using the buildClassificationGridTemplate function:
-  // Check if there are any vehicle data entries.
+Util.buildInventoryItemDetailPage = async (data) => {
+  // console.log(data.length)
+  // Check if there is vehicle data (single data).
   if (data.length > 0) {
     // Use the function to build the HTML for the grid
-    grid = classificationGridTemplateLiteral(data); // Store the HTML in a variable
+    return inventoryItemDetailTemplateLiteral(data); // Store the HTML in a variable
   } else {
     // Handle the case where no vehicles are found.
-    grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>'; // Display a notice message.
+    return '<p class="notice">Sorry, no matching vehicles could be found.</p>'; // Display a notice message.
   }
-  
-  // Return the constructed HTML string for the inventory grid.
-  return grid;
-}
+
+  // return inventoryItemDetailTemplateLiteral(data); // Store the HTML in a variable
+};
 
 // Export the Util object for use in other modules.
 module.exports = Util;

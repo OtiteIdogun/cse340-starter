@@ -11,11 +11,24 @@ require("dotenv").config();
  * If - else will make determination which to use
 \* ============================================================================ */
 
+// Configuration
+const dbConfig = {
+    host: 'localhost', // Or 'localhost'
+    port: 5432, // PostgreSQL default port
+    user: 'postgres',
+    password: '20april2002(PostgreSQL)',
+    database: 'cse340_db'
+};
+
 // Declare a variable 'pool' to hold the connection pool instance.
 let pool;
 
 // Check if the environment is 'development'.
 if (process.env.NODE_ENV == "development") {
+
+  // // Create a connection pool (recommended for efficiency)
+  // pool = new Pool(dbConfig);
+  
   // Create a new Pool instance for PostgreSQL with SSL configuration for development.
   pool = new Pool({
     connectionString: process.env.DATABASE_URL, // Use the DATABASE_URL environment variable to establish the connection.
@@ -39,6 +52,10 @@ if (process.env.NODE_ENV == "development") {
     },
   };
 } else {
+  
+  // // Create a connection pool (recommended for efficiency)
+  // pool = new Pool(dbConfig);
+
   // In non-development environments (production), create a Pool without SSL settings.
   pool = new Pool({
     connectionString: process.env.DATABASE_URL, // Connection string remains the same.
