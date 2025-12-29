@@ -31,6 +31,11 @@
     padding-bottom: 15px;
   }
 
+  .hero h1 {
+    padding: 10px 0px 0 20px;
+    margin: 0;
+  }
+
   .hero h2 {
     font-size: 3.5rem;
     color: var(--primary-color);
@@ -69,5 +74,17 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     padding: 10px 0;
+  }
+
+  .vehicle-details .price {
+    font-size: 1.8rem;
+  }
+
+  .vehicle-details strong {
+    min-width: 120px;
+  }
+
+  .vehicle-details p {
+    font-size: 1.2rem;
   }
 }

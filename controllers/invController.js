@@ -11,9 +11,9 @@ const invCont = {};
  *  Build inventory by classification view
  * ============================================================================ */
 
-// Define an asynchronous method 'buildByClassificationId' within the invCont object.
+// Define an asynchronous method 'buildViewByClassificationId' within the invCont object.
 // This method handles the request to render the inventory for a specific classification.
-invCont.buildByClassificationId = async function (req, res, next) {
+invCont.buildViewByClassificationId = async function (req, res, next) {
   // Extract the classification ID from the request parameters.
   const classification_id = req.params.classificationId;
 
@@ -38,7 +38,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
   });
 }
 
-invCont.buildByInvId = async function (req, res, next) {
+invCont.buildViewByInvId = async function (req, res, next) {
   const inv_id = req.params.invId;
   // console.log("(invController.js) inv_id from req.params:", inv_id);
 

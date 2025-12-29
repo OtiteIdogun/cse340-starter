@@ -1,0 +1,16 @@
+<% 
+  // Check if the 'title' variable is defined.
+  if (title) { 
+%>
+    <h1><%= title %></h1>
+<% 
+  } else { 
+    // If 'title' is not defined, redirect to the home page.
+    res.redirect('/'); 
+  } 
+%>
+
+<%- loginForm %> <%# Note: to see literal HTML markup, use "=" instead of "-" %>
+
+<%- flashMessage() %>
+

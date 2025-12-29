@@ -25,6 +25,7 @@
   --dark-background-color: #333;
   --light-background-color: #f0f0f0;
   --border-color: #e0e0e0;
+  --form-color: rgb(50, 71, 92, 1.90);
 }
 
 *,
@@ -117,7 +118,7 @@ nav ul li {
   padding: 20px 8px;
   min-width: 95px;
   cursor: pointer;
-  transition: background .3s ease;
+  transition: background 0.3s ease;
   background-color: transparent; /* Added background-color */
   color: var(--white-color); /* Added color */
 }
@@ -131,7 +132,7 @@ nav ul li a {
   background-color: transparent; /* Added background-color */
   font-size: 1.2rem;
   text-decoration: none;
-  transition: background .3s ease;
+  transition: background 0.3s ease;
 }
 
 nav ul li a:hover {
@@ -164,7 +165,7 @@ main {
 
 .hero h1 {
   font-size: 5vw;
-  padding: 10px 20px 0 20px;
+  padding: 10px 0px 0 15px;
   margin: 0;
   border-radius: 5px;
   background-color: transparent; /* Added background-color */
@@ -187,7 +188,7 @@ main {
   color: var(--primary-color-rgba);
   background-color: transparent; /* Added background-color */
   text-decoration: none;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .hero .text-content ul li {
@@ -211,14 +212,18 @@ main {
 }
 
 .hero .text-content button:hover {
-  background: linear-gradient(var(--primary-color-rgba) 0%, var(--secondary-color) 100%);
+  background: linear-gradient(
+    var(--primary-color-rgba) 0%,
+    var(--secondary-color) 100%
+  );
 }
 
 /* ============================================================ *
  Section Styles 
  ============================================================== */
 .delorean-sections {
-  margin: 2rem 0 0;
+  padding: 1rem 0;
+  margin: 1rem 0;
 }
 
 section h2 {
@@ -443,7 +448,7 @@ hr {
 
 /* Price styling - large and prominent */
 .vehicle-details .price {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: var(--success-color);
   background-color: transparent; /* Added background-color */
@@ -454,7 +459,7 @@ hr {
 
 /* Individual detail item styling */
 .vehicle-details p {
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin-bottom: 0px;
   line-height: 1.6;
   padding: 15px 0;
@@ -476,12 +481,12 @@ hr {
   background-color: transparent; /* Added background-color */
   font-weight: 700;
   display: inline-block;
-  min-width: 120px;
+  min-width: 100px;
 }
 
 /* Description styling - special treatment */
 .vehicle-details .description {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   line-height: 1.7;
   padding: 20px;
   background-color: var(--white-color);
@@ -489,6 +494,88 @@ hr {
   border-radius: 8px;
   border-left: 4px solid var(--primary-color);
   margin-top: 10px;
+}
+
+.notice {
+  padding: 10px;
+  margin: 0 0 0 20px;
+  border: 1px solid var(--border-color);
+  background-color: var(--d-background-color);
+  display: inline;
+  color: var(--success-color); /* Added color */
+  float: right;
+  text-align: center;
+  list-style: none;
+  border-radius: 5px;
+}
+
+/* ============================================================== *
+ Form Styles
+ ================================================================ */
+form {
+  background-color: var(--form-color);
+  color: white;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 450px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  margin: 0 auto;
+}
+
+label {
+  margin-top: 10px;
+  display: block;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 5px; 
+  font-size: 16px;
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+button {
+  background-color: rgb(0, 162, 184);
+  color: var(--white-color);
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  width: 100%;
+  display: block;
+  text-align: center;
+  margin: 15px 0 0;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 1.8;
+  background-color: rgb(0, 162, 184);
+  background: linear-gradient(
+    rgb(0, 162, 184) 0%,
+    var(--secondary-color) 100%
+  );
+}
+
+p {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+a {
+  color: rgb(0, 212, 240);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }
 
 /* ============================================================== *

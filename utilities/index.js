@@ -7,7 +7,7 @@ const e = require("express");
 const Util = {};
 
 /* ============================================================================ *
- * Constructs the nav HTML unordered list
+ * Navigation UI Component
  * ============================================================================ */
 
 let navTemplateLiteral = (data) => {
@@ -31,11 +31,15 @@ let navTemplateLiteral = (data) => {
 Util.getNav = async function (req, res, next) {
   // Fetch classifications data from the inventory model.
   let data = await invModel.getClassifications(); // Retrieve classification data from the database.
-  
+
   return navTemplateLiteral(data);
-}
+};
 
 // console.log("Utili ties loaded:", Util.getNav());
+
+/* ============================================================================ *
+ * UI Components for Building Vehicle Inventory Grid View
+ * ============================================================================ */
 
 let classificationGridTemplateLiteral = (data) => {
   // Check if data has entries
@@ -69,15 +73,11 @@ let classificationGridTemplateLiteral = (data) => {
   }
 };
 
-/* ============================================================================ *
- * Build the classification view HTML
- * ============================================================================ */
-
 // Define an asynchronous function in the Util object to build HTML for the classification grid.
-Util.buildClassificationGrid = async function(data) {
+Util.buildClassificationGrid = async function (data) {
   // Return the constructed HTML string for the inventory grid.
   return classificationGridTemplateLiteral(data);
-}
+};
 
 /* ============================================================================ *
 
@@ -105,12 +105,8 @@ Util.buildClassificationGrid = async function(data) {
  * - This utility can be used to wrap route handlers to ensure that any errors 
  *   they throw are correctly passed to the Express error-handling middleware.
  * ============================================================================ */
-Util.handleErrors = fn => ( 
-  (req, res, next) => 
-  Promise.resolve(fn(req, res, next))
-         .catch(next)
-);
-
+Util.handleErrors = (fn) => (req, res, next) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
 
 let inventoryItemDetailTemplateLiteral = (carData) => {
   carData = carData[0]; // Object is in an array: Extract the first object from the array
@@ -148,6 +144,63 @@ Util.buildInventoryItemDetailPage = async (data) => {
 
   // return inventoryItemDetailTemplateLiteral(data); // Store the HTML in a variable
 };
+
+Util.buildLoginForm = () => {
+  return `
+    <form action="/account/login" method="POST" class="login-form">
+      <label for="account_email">Email Address:</label>
+      <input type="email" id="account_email" name="account_email" required>
+
+      <label for="account_password">Password:</label>
+      <input type="password" id="account_password" name="account_password" required>
+
+      <button type="submit">Login</button>
+
+      <p>No account? <a href="/account/register">Sign-up</a></p>
+    </form>
+  `;
+
+  // <form action="/login" method="POST">
+  //   <div>
+  //       <label for="account_email">Email:</label>
+  //       <input type="email" id="account_email" name="account_email" required>
+  //   </div>
+  //   <div>
+  //       <label for="account_password">Password:</label>
+  //       <input type="password" id="account_password" name="account_password" required>
+  //   </div>
+  //   <button type="submit">Login</button>
+  // </form>
+};
+
+Util.buildRegisterForm = () => {
+  return `
+    <form action="/account/register" method="POST" class="register-form">
+      <label for="account_firstname">First Name:</label>
+      <input type="text" id="account_firstname" name="account_firstname" required>
+
+      <label for="account_lastname">Last Name:</label>
+      <input type="text" id="account_lastname" name="account_lastname" required>
+
+      <label for="account_email">Email Address:</label>
+      <input type="email" id="account_email" name="account_email" required>
+
+      <label for="account_password">Password:</label>
+      <input type="password" id="account_password" name="account_password" minlength="12" required pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{12,}$">
+
+      <!--
+      <label class="checkbox-label">
+        <input type="checkbox" id="toggle-password-visibility"> 
+        <span class="checkbox-custom"></span>
+        Show Password
+      </label>
+      --> 
+
+      <button type="submit">Register</button>
+    </form>
+  `;
+};
+
 
 // Export the Util object for use in other modules.
 module.exports = Util;
