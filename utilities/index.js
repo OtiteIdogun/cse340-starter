@@ -155,14 +155,16 @@ Util.buildLoginForm = () => {
         <input type="email" 
                id="account_email" 
                name="account_email" 
-               placeholde="Enter in email address e.g. johndoe@email.com" 
+               laceholder="Enter in email address e.g. johndoe@email.com" 
+               placeholder="johndoe@email.com" 
                required>
 
         <label for="account_password">Password:</label>
         <input type="password" 
                id="account_password" 
                name="account_password" 
-               placeholde="Enter in password" 
+               laceholder="Enter in password" 
+               placeholder="P@sswOrd123!" 
                required>
         
         <div class="show-password-container">
@@ -188,28 +190,31 @@ Util.buildRegisterForm = (account_firstname="", account_lastname="", account_ema
         <input type="text" 
                id="account_firstname" 
                name="account_firstname" 
-               placeholde="Enter in first name e.g. John" 
+               laceholder="Enter in first name e.g. John" 
+               placeholder="John" 
                value="${account_firstname}" required>
 
         <label for="account_lastname">Last Name: <span>*</span></label>
         <input type="text" 
                id="account_lastname" 
                name="account_lastname"  
-               placeholde="Enter in last name e.g. Doe" 
+               laceholder="Enter in last name e.g. Doe" 
+               placeholder="Doe" 
                value="${account_lastname}" required>
 
         <label for="account_email">Email Address: <span>*</span></label>
         <input type="email" 
                id="account_email" 
                name="account_email" 
-               placeholde="Enter in email address e.g. johndoe@email.com" 
+               laceholder="Enter in email address e.g. johndoe@email.com" 
+               placeholder="johndoe@email.com" 
                value="${account_email}" required>
 
         <label for="account_password">Password: <span>*</span></label>
         <input type="password" 
                id="account_password" 
                name="account_password" 
-               placeholde="P@sswOrd123!" 
+               placeholder="P@sswOrd123!" 
                pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{12,}$" required>
                
         <small>
