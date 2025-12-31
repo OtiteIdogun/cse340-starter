@@ -148,53 +148,83 @@ Util.buildInventoryItemDetailPage = async (data) => {
 Util.buildLoginForm = () => {
   return `
     <form action="/account/login" method="POST" class="login-form">
-      <label for="account_email">Email Address:</label>
-      <input type="email" id="account_email" name="account_email" required>
+      <fieldset>
+        <legend>Login</legend>
 
-      <label for="account_password">Password:</label>
-      <input type="password" id="account_password" name="account_password" required>
+        <label for="account_email">Email Address:</label>
+        <input type="email" 
+               id="account_email" 
+               name="account_email" 
+               placeholde="Enter in email address e.g. johndoe@email.com" 
+               required>
+
+        <label for="account_password">Password:</label>
+        <input type="password" 
+               id="account_password" 
+               name="account_password" 
+               placeholde="Enter in password" 
+               required>
+        
+        <div class="show-password-container">
+          <label for="show">Show Password</label>
+          <input type="checkbox" name="show-password" id="show-password" onclick="togglePassword()">
+        </div>
+      </fieldset>
 
       <button type="submit">Login</button>
 
       <p>No account? <a href="/account/register">Sign-up</a></p>
     </form>
   `;
-
-  // <form action="/login" method="POST">
-  //   <div>
-  //       <label for="account_email">Email:</label>
-  //       <input type="email" id="account_email" name="account_email" required>
-  //   </div>
-  //   <div>
-  //       <label for="account_password">Password:</label>
-  //       <input type="password" id="account_password" name="account_password" required>
-  //   </div>
-  //   <button type="submit">Login</button>
-  // </form>
 };
 
-Util.buildRegisterForm = () => {
+Util.buildRegisterForm = (account_firstname="", account_lastname="", account_email="") => {
   return `
     <form action="/account/register" method="POST" class="register-form">
-      <label for="account_firstname">First Name:</label>
-      <input type="text" id="account_firstname" name="account_firstname" required>
+      <fieldset>
+        <legend>Register</legend>
 
-      <label for="account_lastname">Last Name:</label>
-      <input type="text" id="account_lastname" name="account_lastname" required>
+        <label for="account_firstname">First Name: <span>*</span></label>
+        <input type="text" 
+               id="account_firstname" 
+               name="account_firstname" 
+               placeholde="Enter in first name e.g. John" 
+               value="${account_firstname}" required>
 
-      <label for="account_email">Email Address:</label>
-      <input type="email" id="account_email" name="account_email" required>
+        <label for="account_lastname">Last Name: <span>*</span></label>
+        <input type="text" 
+               id="account_lastname" 
+               name="account_lastname"  
+               placeholde="Enter in last name e.g. Doe" 
+               value="${account_lastname}" required>
 
-      <label for="account_password">Password:</label>
-      <input type="password" id="account_password" name="account_password" minlength="12" required pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{12,}$">
+        <label for="account_email">Email Address: <span>*</span></label>
+        <input type="email" 
+               id="account_email" 
+               name="account_email" 
+               placeholde="Enter in email address e.g. johndoe@email.com" 
+               value="${account_email}" required>
 
-      <!--
-      <label class="checkbox-label">
-        <input type="checkbox" id="toggle-password-visibility"> 
-        <span class="checkbox-custom"></span>
-        Show Password
-      </label>
-      --> 
+        <label for="account_password">Password: <span>*</span></label>
+        <input type="password" 
+               id="account_password" 
+               name="account_password" 
+               placeholde="P@sswOrd123!" 
+               pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{12,}$" required>
+               
+        <small>
+          Password must include:<br>
+          - At least one uppercase letter<br>
+          - At least one digit<br>
+          - At least one special character<br>
+          - A total length of at least 12 characters
+        </small>
+
+        <div class="show-password-container">
+          <label for="show">Show Password</label>
+          <input type="checkbox" name="show-password" id="show-password" onclick="togglePassword()">
+        </div>
+      </fieldset>
 
       <button type="submit">Register</button>
     </form>

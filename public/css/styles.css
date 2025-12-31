@@ -498,12 +498,12 @@ hr {
 
 .notice {
   padding: 10px;
-  margin: 0 0 0 20px;
-  border: 1px solid var(--border-color);
+  margin: 2rem auto 0;
+  border: 2px solid var(--border-color);
   background-color: var(--d-background-color);
-  display: inline;
+  display: block;
   color: var(--success-color); /* Added color */
-  float: right;
+  width: 50%;
   text-align: center;
   list-style: none;
   border-radius: 5px;
@@ -522,31 +522,104 @@ form {
   margin: 0 auto;
 }
 
-label {
+fieldset {
+  border: 2px solid var(--border-color);
+  margin: 0;
+  padding: 0 16px 25px;
+  border-radius: 5px;
+}
+
+legend {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0px;
+  color: var(--white-color);
+}
+
+form label {
   margin-top: 10px;
   display: block;
 }
 
-input {
+form label span {
+  display: none;
+  margin-bottom: 5px;
+  color: var(--white-color);
+}
+
+form input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-top: 5px;
   border: none;
   border-radius: 5px; 
   font-size: 16px;
 }
 
-input:focus {
-  outline: none;
+form input:focus {
+  outline: 4px solid rgb(0, 162, 184);
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
-button {
+/* input:required:invalid,  */
+input:focus:invalid {
+  box-shadow: none;
+  background-color: rgba(255, 175, 175, 0.911);
+}
+
+input:focus:invalid {
+  box-shadow: none;
+  background-color: rgba(187, 255, 181, 0.911);
+}
+
+form input[name="account_password"] {
+  margin-bottom: 10px;
+}
+
+form small {
+  color: var(--white-color);
+  font-size: 12px;
+  line-height: 2px;
+}
+
+form .show-password-container {
+  display: flex;
+  place-items: center;
+  margin-top: 4px;
+  color: rgb(0, 204, 231);
+  font-weight: 500;
+  text-shadow: 0 0 1px var(--white-color);
+  gap: 10px;
+}
+
+form input[type="checkbox"] {
+  margin-right: 8px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  accent-color: rgb(0, 162, 184);
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+form input[type="checkbox"]:hover {
+  background-color: rgba(0, 162, 184, 0.2);
+}
+
+form input[type="checkbox"]:focus {
+  outline: none;
+}
+
+form input[type="checkbox"]:checked {
+  background-color: rgb(0, 162, 184);
+  border: 2px solid white;
+}
+
+form button {
   background-color: rgb(0, 162, 184);
   color: var(--white-color);
   border: none;
   border-radius: 5px;
-  padding: 10px;
+  padding: 12px;
   width: 100%;
   display: block;
   text-align: center;
@@ -555,7 +628,7 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+form button:hover {
   opacity: 1.8;
   background-color: rgb(0, 162, 184);
   background: linear-gradient(
@@ -564,17 +637,18 @@ button:hover {
   );
 }
 
-p {
+form p {
   text-align: center;
   margin-top: 20px;
   font-size: 14px;
 }
 
-a {
+form a {
   color: rgb(0, 212, 240);
   text-decoration: none;
 }
-a:hover {
+
+form a:hover {
   text-decoration: underline;
 }
 

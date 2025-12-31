@@ -17,6 +17,7 @@ const inventoryRoute = require("./routes/inventoryRoute")
 const accountRoute = require("./routes/accountRoute")
 const session = require("express-session")
 const pool = require('./database/') // db.json')
+const bodyParser = require("body-parser")
 
 /* ============================================================================ *
  * Middleware
@@ -57,6 +58,10 @@ app.use(function(req, res, next) {
   // If next() is not called, the request will hang, and the user won't receive a response
   next(); // Proceed to the next middleware or route handler
 });
+
+// Body Parser Middleware
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 /* ============================================================================ *
  * View Engine and Templates
@@ -124,3 +129,5 @@ const host = process.env.HOST
 app.listen(port, () => {
   console.log(`App server listening on http://${host}:${port}`)
 })
+
+
