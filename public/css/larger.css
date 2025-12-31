@@ -3,6 +3,9 @@
 
 /********** Larger-screen media queries (1024px and up) **********/
 @media (min-width: 1024px) {
+  /* ============================================================ *
+   Global Styles
+   ============================================================== */
   body {
     background-color: var(--white-color);
     background-image: url("../images/site/checkerboard.jpg");
@@ -19,6 +22,27 @@
     box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.05), 0 8px 20px rgba(0, 0, 0, 0.15);
   }
 
+  /* ============================================================ *
+   Navigation Styles
+   ============================================================== */
+  nav ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: nowrap;
+  }
+
+  nav ul li {
+    min-width: 95px;
+  }
+
+  nav ul li a {
+    font-size: 1.2rem;
+  }
+
+  /* ============================================================ *
+   Main Content Styles
+   ============================================================== */
   main {
     padding: 20px;
   }
@@ -31,6 +55,9 @@
     padding-bottom: 15px;
   }
 
+  /* ============================================================ *
+   Hero Section Styles
+   ============================================================== */
   .hero h1 {
     padding: 10px 0px 0 20px;
     margin: 0;
@@ -42,6 +69,9 @@
     background-color: transparent; /* Added background-color */
   }
 
+  /* ============================================================ *
+   Header Styles
+   ============================================================== */
   header span a {
     font-size: 2.5rem;
   }
@@ -50,6 +80,9 @@
     font-size: 1rem;
   }
 
+  /* ============================================================ *
+   Vehicle Details Styles
+   ============================================================== */
   .delorean-sections {
     display: flex;
     flex-direction: row-reverse;
@@ -86,5 +119,16 @@
 
   .vehicle-details p {
     font-size: 1.2rem;
+  }
+
+  /* ============================================================ *
+   Form Styles
+   ============================================================== */
+  form {
+    padding: 20px;
+  }
+
+  fieldset {
+    padding: 0 16px 25px;
   }
 }
