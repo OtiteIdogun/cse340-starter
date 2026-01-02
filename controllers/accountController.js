@@ -1,5 +1,6 @@
 const accountModel = require("../models/account-model"); // Import the account model to interact with account data in the database.
 const utilities = require("../utilities/"); // Import utility functions for additional functionality (e.g., building UI components).
+const accountValidation = require("../utilities/account-validation");
 
 const accountCont = {}; // Initialize an empty object to hold account controller methods.
 
@@ -32,6 +33,7 @@ accountCont.buildAccountRegistrationView = async function (req, res, next) {
   res.render("account/register", {
       title: "Account Registration", 
       nav,
+      errors: null,
       registerForm
     }); // Render the account registration view using the navigation data.
 };
@@ -54,10 +56,15 @@ accountCont.registerAccount = async function (req, res) {
   // const existingAccount = await accountModel.getAccountByEmail(account_email)
   // if (existingAccount) {
   //   req.flash("notice", "Account already exists.")
+    
+  //   // require("../utilities/account-validation")
+  //   //   .accountValidation.checkRegData
+
   //   res.status(501).render("account/register", {
   //     title: "Account Registration",
   //     nav,
-  //     registerForm: utilities.buildRegisterForm()
+  //     registerForm: utilities.buildRegisterForm,
+  //     errors
   //   })
   //   return
   // }

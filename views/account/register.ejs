@@ -10,7 +10,15 @@
   } 
 %>
 
-<%- registerForm %> <%# Note: to see literal HTML markup, use "=" instead of "-" %>
-
 <%- flashMessage() %>
 
+<% if (errors) { %>
+    <ul class="notice">
+    <% for (let i = 0; i < errors.length; i++) { %>
+      <% i = i +1 %> 
+      <li><%= errors[i].msg %></li>
+    <% } %>
+    </ul>
+<% } %>
+
+<%- registerForm %> <%# Note: to see literal HTML markup, use "=" instead of "-" %>
