@@ -145,7 +145,7 @@ Util.buildInventoryItemDetailPage = async (data) => {
   // return inventoryItemDetailTemplateLiteral(data); // Store the HTML in a variable
 };
 
-Util.buildLoginForm = () => {
+Util.buildLoginForm = (account_email="") => {
   return `
     <form action="/account/login" method="POST" class="login-form">
       <fieldset>
@@ -157,6 +157,7 @@ Util.buildLoginForm = () => {
                name="account_email" 
                laceholder="Enter in email address e.g. johndoe@email.com" 
                placeholder="johndoe@email.com" 
+               value="${account_email=""}
                required>
 
         <label for="account_password">Password:</label>
@@ -192,7 +193,8 @@ Util.buildRegisterForm = (account_firstname="", account_lastname="", account_ema
                name="account_firstname" 
                laceholder="Enter in first name e.g. John" 
                placeholder="John" 
-               value="${account_firstname}" required>
+               value="${account_firstname}" 
+               required>
 
         <label for="account_lastname">Last Name: <span>*</span></label>
         <input type="text" 
@@ -200,7 +202,8 @@ Util.buildRegisterForm = (account_firstname="", account_lastname="", account_ema
                name="account_lastname"  
                laceholder="Enter in last name e.g. Doe" 
                placeholder="Doe" 
-               value="${account_lastname}" required>
+               value="${account_lastname}" 
+               required>
 
         <label for="account_email">Email Address: <span>*</span></label>
         <input type="email" 
@@ -208,14 +211,16 @@ Util.buildRegisterForm = (account_firstname="", account_lastname="", account_ema
                name="account_email" 
                laceholder="Enter in email address e.g. johndoe@email.com" 
                placeholder="johndoe@email.com" 
-               value="${account_email}" required>
+               value="${account_email}" 
+               required>
 
         <label for="account_password">Password: <span>*</span></label>
         <input type="password" 
                id="account_password" 
                name="account_password" 
                placeholder="P@sswOrd123!" 
-               pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{12,}$" required>
+               pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{12,}$" 
+               required>
                
         <small>
           Password must include:<br>

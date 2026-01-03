@@ -8,7 +8,14 @@ const accoutValidate = require('../utilities/account-validation')
 router.get("/login", utilities.handleErrors(accountController.buildAccountLoginView));
 
 // Route to handle login form submission
-router.post("/login", utilities.handleErrors(accountController.loginAccount));
+// router.post("/login", utilities.handleErrors(accountController.loginAccount));
+
+// Process the login attempt
+router.post("/login",
+  (req, res) => {
+    res.status(200).send('login process...')
+  }
+)
 
 // Route to display the account registration view
 router.get("/register", utilities.handleErrors(accountController.buildAccountRegistrationView));

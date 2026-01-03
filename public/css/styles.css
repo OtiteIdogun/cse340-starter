@@ -567,6 +567,10 @@ form input:focus {
   background-color: var(--light-background-color);
 }
 
+.login-form input[name="account_password"]:focus {
+  background-color: var(--light-background-color);
+}
+
 /* input:required:invalid,  */
 input:focus:invalid {
   box-shadow: none;
