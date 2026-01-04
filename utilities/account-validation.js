@@ -90,8 +90,15 @@ accountValidation.checkRegData = async (req, res, next) => {
   let errors = []
   errors = validationResult(req)
 
-  // Clean the email value if it's just '@'
-  let clean_email = account_email === '@' ? '' : account_email
+  // Clean the email value if it's just '@' or first character starts with '@' 
+  // let clean_email = account_email === '@'  ? '' : account_email
+  let clean_email = account_email
+
+  if (clean_email === '@') {
+    clean_email = '';
+  } else if (clean_email.startsWith('@')) {
+    clean_email = clean_email.slice(0); // Use slice string method to remove first character
+  }
 
   // <% if (errors) { %>
   //   <ul class="notice">
