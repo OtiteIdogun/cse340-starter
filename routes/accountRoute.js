@@ -2,7 +2,7 @@ const express = require("express");
 const router = new express.Router();
 const accountController = require("../controllers/accountController");
 const utilities = require("../utilities/index")
-const accoutValidate = require('../utilities/account-validation')
+const accountValidate = require('../utilities/account-validation')
 
 // Route to display the account management view
 router.get("/login", utilities.handleErrors(accountController.buildAccountLoginView));
@@ -12,6 +12,8 @@ router.get("/login", utilities.handleErrors(accountController.buildAccountLoginV
 
 // Process the login attempt
 router.post("/login",
+  accountValidate.loginRules(),
+  accountValidate.checkLoginData,
   (req, res) => {
     res.status(200).send('login process...')
   }
@@ -22,8 +24,8 @@ router.get("/register", utilities.handleErrors(accountController.buildAccountReg
 
 // Route to handle registration form submission
 router.post("/register",
-  accoutValidate.registationRules(),
-  accoutValidate.checkRegData,
+  accountValidate.registrationRules(),
+  accountValidate.checkRegData,
   utilities.handleErrors(accountController.registerAccount)
 )
 

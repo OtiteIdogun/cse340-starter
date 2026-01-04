@@ -6,7 +6,7 @@ const accountModel = require("../models/account-model")
 /* ============================================================================ *
  * Registration Data Validation Rules
  * ============================================================================ */
-accountValidation.registationRules = () => {
+accountValidation.registrationRules = () => {
   return [
     // firstname is required and must be string
     body("account_firstname")
@@ -55,12 +55,43 @@ accountValidation.registationRules = () => {
 }
 
 /* ============================================================================ *
+ * Login Data Validation Rules
+ * ============================================================================ */
+accountValidation.loginRules = () => {
+  return [
+    // valid email is required and must exist in the DB
+    body("account_email")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isEmail()
+      .normalizeEmail() // refer to validator.js docs
+      .withMessage("A valid email is required.")
+      .custom(async (account_email) => {
+        const emailExists = await accountModel.checkExistingAccountByEmail(account_email)
+        if (!emailExists){
+          throw new Error("Email not found. Please register or use different email")
+        }
+      }),
+
+    // password is required
+    body("account_password")
+      .trim()
+      .notEmpty()
+      .withMessage("Password is required."),
+  ]
+}
+
+/* ============================================================================ *
  * Check data and return errors or continue to registration
  * ============================================================================ */
 accountValidation.checkRegData = async (req, res, next) => {
   const { account_firstname, account_lastname, account_email } = req.body
   let errors = []
   errors = validationResult(req)
+
+  // Clean the email value if it's just '@'
+  let clean_email = account_email === '@' ? '' : account_email
 
   // <% if (errors) { %>
   //   <ul class="notice">
@@ -80,8 +111,43 @@ accountValidation.checkRegData = async (req, res, next) => {
       nav,
       account_firstname,
       account_lastname,
-      account_email,
-      registerForm: utilities.buildRegisterForm(account_firstname, account_lastname, account_email)
+      account_email: clean_email,
+      registerForm: utilities.buildRegisterForm(account_firstname, account_lastname, clean_email)
+    })
+    return
+  }
+  next()
+}
+
+/* ============================================================================ *
+ * Check login data and return errors or continue to login
+ * ============================================================================ */
+accountValidation.checkLoginData = async (req, res, next) => {
+  const { account_email } = req.body
+  let errors = []
+  errors = validationResult(req)
+
+  // // Clean the email value if it's just '@'
+  let clean_email = account_email === '@' ? '' : account_email
+
+  // console.log(errors.errors)
+  console.log(req.body)
+
+  for (let i = 0; i < errors.errors.length; i++) {
+    if (errors.errors[i].value === '@') {
+      errors.errors.splice(i, 1)
+    }
+    console.log(`Error msg: ${errors.errors[i].msg}`)
+  }
+
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    res.render("account/login", {
+      errors: errors.array(),
+      title: "Account Login",
+      nav,
+      account_email: clean_email,
+      loginForm: utilities.buildLoginForm(clean_email)
     })
     return
   }

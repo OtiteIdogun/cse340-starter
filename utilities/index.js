@@ -157,7 +157,7 @@ Util.buildLoginForm = (account_email="") => {
                name="account_email" 
                laceholder="Enter in email address e.g. johndoe@email.com" 
                placeholder="johndoe@email.com" 
-               value="${account_email=""}
+               value="${account_email}"
                required>
 
         <label for="account_password">Password:</label>

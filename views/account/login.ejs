@@ -12,6 +12,19 @@
 
 <%- flashMessage() %>
 
+<% if (errors) { %>
+    <ul class="notice">
+    <% for (let i = 0; i < errors.length; i++) { %>
+      <% if (errors[i].msg == "Invalid value") { %>
+        <% errors.splice(i, 1) %>
+      <% } %>
+      <li><%= errors[i].msg %></li>
+    <% } %>
+    </ul>
+<% } else { %>
+    <% console.log('No errors to display'); %>
+<% } %>
+
 <%# loginForm %> <%# Note: to see literal HTML markup, use "=" instead of "-" %>
 
 <form id="loginForm" action="/account/login" method="POST" class="login-form">
