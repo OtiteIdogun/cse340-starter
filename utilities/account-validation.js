@@ -90,15 +90,10 @@ accountValidation.checkRegData = async (req, res, next) => {
   let errors = []
   errors = validationResult(req)
 
-  // Clean the email value if it's just '@' or first character starts with '@' 
+  // Clean the email value if it's just '@' 
   // let clean_email = account_email === '@'  ? '' : account_email
-  let clean_email = account_email
 
-  if (clean_email === '@') {
-    clean_email = '';
-  } else if (clean_email.startsWith('@')) {
-    clean_email = clean_email.slice(0); // Use slice string method to remove first character
-  }
+  let clean_email = utilities.cleanEmail(account_email)
 
   // <% if (errors) { %>
   //   <ul class="notice">
@@ -114,7 +109,7 @@ accountValidation.checkRegData = async (req, res, next) => {
     let nav = await utilities.getNav()
     res.render("account/register", {
       errors: errors.array(), //OR errors.array() 
-      title: "Registration",
+      title: "Account Registration",
       nav,
       account_firstname,
       account_lastname,
@@ -135,16 +130,19 @@ accountValidation.checkLoginData = async (req, res, next) => {
   errors = validationResult(req)
 
   // // Clean the email value if it's just '@'
-  let clean_email = account_email === '@' ? '' : account_email
+  // let clean_email = account_email === '@' ? '' : account_email
+
+  let clean_email = utilities.cleanEmail(account_email)
 
   // console.log(errors.errors)
-  console.log(req.body)
+  // console.log(req.body)
 
   for (let i = 0; i < errors.errors.length; i++) {
     if (errors.errors[i].value === '@') {
+      // console.log(`Removing error msg with value '${errors.errors[i].value}' in error object...`)
       errors.errors.splice(i, 1)
     }
-    console.log(`Error msg: ${errors.errors[i].msg}`)
+    // console.log(`Error msg: ${errors.errors[i].msg}`)
   }
 
   if (!errors.isEmpty()) {

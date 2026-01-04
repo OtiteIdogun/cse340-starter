@@ -241,6 +241,17 @@ Util.buildRegisterForm = (account_firstname="", account_lastname="", account_ema
   `;
 };
 
+Util.cleanEmail = (account_email) => {
+  let clean_email = account_email
+
+  if (clean_email === '@') {
+    clean_email = '';
+  } else if (clean_email.startsWith('@')) {
+    clean_email = clean_email.slice(1); // Use slice string method to remove first character
+  }
+
+  return clean_email
+}
 
 // Export the Util object for use in other modules.
 module.exports = Util;

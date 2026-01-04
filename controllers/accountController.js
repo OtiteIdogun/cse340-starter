@@ -1,6 +1,7 @@
 const accountModel = require("../models/account-model"); // Import the account model to interact with account data in the database.
 const utilities = require("../utilities/"); // Import utility functions for additional functionality (e.g., building UI components).
 const accountValidation = require("../utilities/account-validation");
+const bcrypt = require("bcryptjs")
 
 const accountCont = {}; // Initialize an empty object to hold account controller methods.
 
@@ -46,11 +47,26 @@ accountCont.registerAccount = async function (req, res) {
   let nav = await utilities.getNav()
   const { account_firstname, account_lastname, account_email, account_password } = req.body
 
+  // Hash the password before storing
+  let hashedPassword
+
+  try {
+    // regular password and cost (salt is generated automatically)
+    hashedPassword = await bcrypt.hashSync(account_password, 10)
+  } catch (error) {
+    req.flash("notice", 'Sorry, there was an error processing the registration.')
+    res.status(500).render("account/register", {
+      title: "Registration",
+      nav,
+      errors: null,
+    })
+  }
+
   const regResult = await accountModel.registerAccount(
     account_firstname,
     account_lastname,
     account_email,
-    account_password
+    hashedPassword // Changed to from plain text account_password to hashed password
   )
   
   // // If account already exists, prevent duplicate registration
@@ -79,6 +95,7 @@ accountCont.registerAccount = async function (req, res) {
     res.status(201).render("account/login", { // the number 201 indicates that a resource has been successfully created
       title: "Account Login",
       nav,
+      errors: null, // Ensure errors is null if none are present when rendering the login view
       loginForm: utilities.buildLoginForm(),
     })
 
@@ -100,6 +117,7 @@ accountCont.registerAccount = async function (req, res) {
     res.status(501).render("account/register", { // the number 501 indicates that the server does not support the functionality required to fulfill the request
       title: "Account Registration",
       nav,
+      errors: null, // Ensures errors is null if none are present when rendering the login view
       registerForm: utilities.buildRegisterForm()
     })
   }
