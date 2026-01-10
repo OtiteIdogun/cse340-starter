@@ -48,16 +48,16 @@ let classificationGridTemplateLiteral = (data) => {
       <ul id="inv-display">
         ${data.map(vehicle => `
           <li>
-            <a href="../../inv/detail/${vehicle.inv_id}" 
+            <a href="../../inv/detail/${vehicle.inv_id}"
                title="View ${vehicle.inv_make} ${vehicle.inv_model} details">
-              <img src="${vehicle.inv_image}" 
-                   alt="Image of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors" 
-                   width="300"/>
+              <img src="${vehicle.inv_image}"
+                   alt="Image of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors"
+                   width="300">
             </a>
             <div class="namePrice">
-              <hr />
+              <hr>
               <h2>
-                <a href="../../inv/detail/${vehicle.inv_id}" 
+                <a href="../../inv/detail/${vehicle.inv_id}"
                    title="View ${vehicle.inv_make} ${vehicle.inv_model} details">
                   ${vehicle.inv_make} ${vehicle.inv_model}
                 </a>

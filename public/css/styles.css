@@ -505,7 +505,7 @@ hr {
   padding: 10px;
   margin: 2rem auto 1rem;
   border: 2px solid var(--border-color);
-  background-color: none;
+  background-color: transparent;
   display: block;
   color: var(--success-color); /* Added color */
   max-width: 600px;
@@ -601,7 +601,7 @@ form small {
 form .show-password-container {
   display: flex;
   place-items: center;
-  margin-top: 4px auto 0;
+  margin: 4px auto 0;
   color: rgb(0, 204, 231);
   font-weight: 500;
   text-shadow: 0 0 1px var(--white-color);
@@ -698,7 +698,7 @@ form a:hover {
 #add-classification-form button,
 #add-inventory-form button {
   width: 200px;
-  align-self: right;
+  margin-left: auto;
 }
 
 #add-inventory-form select,

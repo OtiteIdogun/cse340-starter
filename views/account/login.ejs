@@ -27,29 +27,27 @@
 
 <%# loginForm %> <%# Note: to see literal HTML markup, use "=" instead of "-" %>
 
-<form id="loginForm" action="/account/login" method="POST" id="login-form" class="login-form">
+<form id="loginForm" action="/account/login" method="POST" class="login-form">
   <fieldset>
     <legend>Login</legend>
 
     <label for="account_email">Email Address:</label>
-    <input type="email" 
-            id="account_email" 
-            name="account_email" 
-            laceholder="Enter in email address e.g. johndoe@email.com" 
-            placeholder="e.g. johndoe@email.com" 
-            value="<%= locals.account_email %>" 
+    <input type="email"
+            id="account_email"
+            name="account_email"
+            placeholder="e.g. johndoe@email.com"
+            value="<%= locals.account_email %>"
             required>
 
     <label for="account_password">Password:</label>
-    <input type="password" 
-            id="account_password" 
-            name="account_password" 
-            placeholder="Enter in password" 
-            // placeholder="P@sswOrd123!" 
+    <input type="password"
+            id="account_password"
+            name="account_password"
+            placeholder="Enter in password"
             required>
-    
+
     <div class="show-password-container">
-      <label for="show">Show Password</label>
+      <label for="show-password">Show Password</label>
       <input type="checkbox" name="show-password" id="show-password" onclick="togglePassword()">
     </div>
   </fieldset>
