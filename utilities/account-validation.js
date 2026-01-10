@@ -104,6 +104,7 @@ accountValidation.checkRegData = async (req, res, next) => {
   // <% } %>
   // console.log(errors.errors)
   // console.log(req.body)
+  // console.log(req.body.account_email)
   
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()

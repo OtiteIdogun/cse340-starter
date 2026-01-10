@@ -13,7 +13,7 @@ const invCont = {};
 
 // Define an asynchronous method 'buildViewByClassificationId' within the invCont object.
 // This method handles the request to render the inventory for a specific classification.
-invCont.buildViewByClassificationId = async function (req, res, next) {
+invCont.buildInventoryViewByClassificationId = async function (req, res, next) {
   // Extract the classification ID from the request parameters.
   const classification_id = req.params.classificationId;
 
@@ -38,7 +38,7 @@ invCont.buildViewByClassificationId = async function (req, res, next) {
   });
 }
 
-invCont.buildViewByInvId = async function (req, res, next) {
+invCont.buildInventoryDetailViewByInvId = async function (req, res, next) {
   const inv_id = req.params.invId;
   // console.log("(invController.js) inv_id from req.params:", inv_id);
 
@@ -57,5 +57,167 @@ invCont.buildViewByInvId = async function (req, res, next) {
   });
 }
 
+invCont.buildInventoryManagementView = async function (req, res, next) {
+  let nav = await utilities.getNav(); // Get the navigation data for rendering the navigation menu.
+
+  res.render("./inventory/management", { 
+    errors: null,
+    title: "Inventory Management", 
+    nav 
+  }); // Render the inventory management view using the navigation data.
+};
+
+invCont.buildAddNewClassificationView = async function (req, res, next) {
+  // const { classification_name } = req.body; // Only used
+  let nav = await utilities.getNav(); // Get the navigation data for rendering the navigation menu.
+  let addClassificationForm = utilities.buildAddClassificationForm();
+
+  res.render("./inventory/add-classification", {
+    title: "Add New Classification",
+    nav,
+    // classification_name,
+    addClassificationForm, 
+    errors: null,
+  }); // Render the add new classification view using the navigation data.
+};
+
+invCont.addClassification = async function (req, res, next) {
+  let nav = await utilities.getNav(); // Get the navigation data for rendering the navigation menu.
+  let classification_name = req.body.classification_name; // Get the classification name from the request body.
+  let addClassificationForm = utilities.buildAddClassificationForm(classification_name); // Build the add classification form using a utility function.
+
+  const addClassificationResult = await invModel.addNewInventoryClassification(classification_name); // Attempt to add the new classification using the inventory model.
+
+  if (addClassificationResult) {
+    req.flash(
+      "notice",
+      `Congratulations, the ${classification_name.toUpperCase()} classification was added successfully.`
+    );
+
+    res.status(201).render("inventory/add-classification", { 
+      title: "Add New Classification", 
+      nav,
+      addClassificationForm,
+      errors: null,
+    });
+  } else {
+    req.flash(
+      "notice",
+      `Sorry, the ${classification_name.toUpperCase()} classification could not be added. Please try again.`
+    );
+
+    res.status(501).render("inventory/add-classification", { 
+      title: "Add New Classification", 
+      nav,
+      addClassificationForm,
+      errors: null,
+    });
+  }
+};
+
+
+/* ============================================================================ *
+ *  Build add new inventory view
+ * ============================================================================ */
+invCont.buildAddNewInventoryView = async function (req, res, next) {
+  let nav = await utilities.getNav(); // Get the navigation data for rendering the navigation menu.
+  let addInventoryForm = utilities.buildAddInventoryForm();
+  let classificationSelectionList = await utilities.buildClassificationListWithTemplateLiteral(); // Build the classification selection list for the form.
+  
+  // console.log("(invController.js) classificationSelectionList:", classificationSelectionList);
+
+  res.render("./inventory/add-inventory", {
+    title: "Add New Inventory",
+    nav,
+    addInventoryForm, 
+    classificationSelectionList,
+    errors: null,
+  }); // Render the add new inventory view using the navigation data.
+};
+
+invCont.addInventory = async function (req, res, next) {
+  let nav = await utilities.getNav(); // Get the navigation data for rendering the navigation menu.
+  const { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_color, inv_price, inv_miles, classification_id } = req.body; // Get the form data from the request body.
+  let addInventoryForm = utilities.buildAddInventoryForm(classification_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color); // Build the add inventory form using a utility function.
+  let classificationSelectionList = await utilities.buildClassificationListWithTemplateLiteral(); // Build the classification selection list for the form.
+  let addInventoryResult = null;
+  
+  let checkExistingInventoryItem = await invModel.checkExistingInventoryItem(inv_make, inv_model, inv_year, inv_color, classification_id);
+  if (checkExistingInventoryItem) {
+    let classificationName = await invModel.getClassificationName(classification_id);
+    req.flash(
+      "notice",
+      // `Sorry, the Inventory Item ${inv_make.toUpperCase()} ${inv_model.toUpperCase()} already exists. Please try again.`
+      `Sorry, the Inventory Item ${inv_make.toUpperCase()} ${inv_model.toUpperCase()} of classification ${classificationName.toUpperCase()} already exists. Please try again.`
+    );
+
+    // console.log("(invController.js) classification_id:", classification_id, "type:", typeof classification_id);
+    // console.log("(invController.js) req.body:", req.body);
+
+    res.status(501).render("inventory/add-inventory", {
+      title: "Add New Inventory", 
+      nav,
+      addInventoryForm,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_color,
+      inv_price,
+      inv_miles,
+      classification_id,
+      classificationSelectionList,
+      errors: null,
+    });
+    return;
+  } else if (!checkExistingInventoryItem) {
+    addInventoryResult = await invModel.addNewInventoryItem(classification_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color);
+    
+    let classificationName = await invModel.getClassificationName(classification_id);
+
+    req.flash(
+      "notice",
+      `Congratulations, the Inventory Item ${inv_make.toUpperCase()} ${inv_model.toUpperCase()} - ${classificationName.toUpperCase()} was added successfully.`
+    );
+
+    res.status(201).render("inventory/add-inventory", { 
+      title: "Add New Inventory", 
+      nav,
+      classificationSelectionList,
+      addInventoryForm,
+      errors: null,
+    });
+  } else {
+    req.flash(
+      "notice",
+      `Sorry, the ${inv_make.toUpperCase()} ${inv_model.toUpperCase()} could not be added. Please try again.`
+    );  
+
+    res.status(501).render("inventory/add-inventory", {
+      title: "Add New Inventory", 
+      nav,
+      addInventoryForm,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_color,
+      inv_price,
+      inv_miles,
+      classification_id,
+      classificationSelectionList,
+      errors: null,
+    });
+  }
+
+};
+
+/* ============================================================================ *
+ *  Export the controller
+ * ============================================================================ */
 // Export the inventory controller object for use in other parts of the application.
 module.exports = invCont;

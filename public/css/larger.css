@@ -33,7 +33,7 @@
   }
 
   nav ul li {
-    min-width: 95px;
+    width: 100%;
   }
 
   nav ul li a {

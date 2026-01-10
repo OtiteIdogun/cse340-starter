@@ -1,0 +1,131 @@
+<% 
+  // Check if the 'title' variable is defined.
+  if (title) {
+%>
+    <h1><%= title %></h1>
+<% 
+  } else { 
+    // If 'title' is not defined, redirect to the home page.
+    res.redirect('/'); 
+  } 
+%>
+
+<% if (errors) { %>
+    <ul class="notice">
+    <% for (let i = 0; i < errors.length; i++) { %>
+      <% if (errors[i].msg == "Invalid value") { %>
+        <% errors.splice(i, 1) %>
+      <% } %>
+      <li><%= errors[i].msg %></li>
+    <% } %>
+    </ul>
+<% } else { %>
+    <% 'No errors to display' %>
+    <%# console.log('No errors to display'); %>
+<% } %>
+
+<%- flashMessage() %>
+
+<%# addInventoryForm %>
+
+<form action="/inv/add-inventory" method="POST" id="add-inventory-form">
+  <fieldset>
+    <legend>Add New Inventory Vehicle</legend>
+
+    <label for="classification_id">Classification: <span>*</span></label>
+    <select id="classification_id" name="classification_id" required>
+      <option value="" disabled selected>Select Classification</option>
+      <%- classificationSelectionList %>
+    </select>
+
+    <label for="inv_make">Make: <span>*</span></label>
+    <input type="text" 
+            id="inv_make" 
+            name="inv_make" 
+            placeholder="e.g. Toyota" 
+            value="<%= locals.inv_make %>" 
+            pattern="^[A-Z][A-Za-z0-9]{0,19}$" <%# {0,19} = Max 20 characters and * is for optional %>
+            title="Make name must have the following requirements: - Begin with an uppercase letter - Should not contain spaces - Should not contain special characters or Numbers - And Should be a maximum of 20 character long"
+            required>
+
+    <label for="inv_model">Model: <span>*</span></label>
+    <input type="text" 
+            id="inv_model" 
+            name="inv_model"  
+            placeholder="e.g. Camry" 
+            pattern="^[A-Z][A-Za-z0-9]{0,19}$"
+            value="<%= locals.inv_model %>" 
+            title="Model name must have the following requirements: - Begin with an uppercase letter - Should not contain spaces - Should not contain special characters"
+            required>
+
+    <label for="inv_year">Year: <span>*</span></label>
+    <input type="number" 
+            id="inv_year" 
+            name="inv_year" 
+            placeholder="e.g. 2020" 
+            pattern="[0-9]{4}"
+            value="<%= locals.inv_year %>" 
+            min="1900" max="2099" step="1"
+            title="Year must be a four-digit number between 1900 and 2099"
+            required>
+
+    <label for="inv_description">Description: <span>*</span></label>
+    <textarea id="inv_description" 
+              name="inv_description" 
+              placeholder="Enter vehicle description here..." 
+              title="Please provide a description for the vehicle."
+              required><%= locals.inv_description %></textarea>
+
+    <label for="inv_image">Path to Image: <span>*</span></label>
+    <input type="text" 
+           id="inv_image" 
+           name="inv_image" 
+           placeholder="e.g. /images/no-image.png" 
+           value="<%= locals.inv_image %>" 
+           pattern="^[A-Za-z0-9\/._-]+$" 
+           title="Please provide an path to image for the vehicle. - Image URL should not contain spaces. - Should not contain special characters (only allow letters, numbers, forward slashes, dots, underscores, and hyphens)." 
+           required>
+
+    <label for="inv_thumbnail">Path to Thumbnail: <span>*</span></label>
+    <input type="text" 
+            id="inv_thumbnail" 
+            name="inv_thumbnail"  
+            placeholder="e.g. /images/no-image-tn.png" 
+            pattern="^[A-Za-z0-9\/._-]+$"
+            title="Please provide a path to thumbnail for the vehicle. - Thumbnail URL should not contain spaces - Should not contain special characters"
+            value="<%= locals.inv_thumbnail %>" 
+            required>
+
+    <label for="inv_price">Price: <span>*</span></label>
+    <input type="number" 
+            id="inv_price" 
+            name="inv_price" 
+            placeholder="e.g. 25000.00" 
+            value="<%= locals.inv_price %>" 
+            min="0" step="0.01"
+            title="Please provide a price for the vehicle. - Price should be a positive number. - Decimals are allowed but should be limited to 2 decimal places. - No currency symbols."
+            required>
+
+    <label for="inv_miles">Miles: <span>*</span></label>
+    <input type="number" 
+            id="inv_miles" 
+            name="inv_miles" 
+            placeholder="e.g. 15000" 
+            value="<%= locals.inv_miles %>" 
+            min="0" step="1"
+            title="Please provide the mileage for the vehicle. - Mileage should be a positive whole number. - No commas or special characters. - Decimals are not allowed."
+            required>
+
+    <label for="inv_color">Color: <span>*</span></label>
+    <input type="text" 
+            id="inv_color" 
+            name="inv_color" 
+            placeholder="e.g. Black" 
+            pattern="^[A-Z][A-Za-z0-9]{1,20}"
+            value="<%= locals.inv_color %>" 
+            title="Please provide a color for the vehicle. - Color should only contain letters and spaces. - Maximum length is 20 characters. - No special characters or numbers."
+            required>
+
+    <button type="submit">Add Inventory Vehicle</button>
+  </fieldset>
+</form>

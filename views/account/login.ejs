@@ -27,7 +27,7 @@
 
 <%# loginForm %> <%# Note: to see literal HTML markup, use "=" instead of "-" %>
 
-<form id="loginForm" action="/account/login" method="POST" class="login-form">
+<form id="loginForm" action="/account/login" method="POST" id="login-form" class="login-form">
   <fieldset>
     <legend>Login</legend>
 
@@ -36,7 +36,7 @@
             id="account_email" 
             name="account_email" 
             laceholder="Enter in email address e.g. johndoe@email.com" 
-            placeholder="johndoe@email.com" 
+            placeholder="e.g. johndoe@email.com" 
             value="<%= locals.account_email %>" 
             required>
 

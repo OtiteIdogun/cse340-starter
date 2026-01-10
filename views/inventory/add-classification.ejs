@@ -1,0 +1,52 @@
+<% 
+  // Check if the 'title' variable is defined.
+  if (title) {
+%>
+    <h1><%= title %></h1>
+<% 
+  } else { 
+    // If 'title' is not defined, redirect to the home page.
+    res.redirect('/'); 
+  } 
+%>
+
+<% if (errors) { %>
+    <ul class="notice">
+    <% for (let i = 0; i < errors.length; i++) { %>
+      <% if (errors[i].msg == "Invalid value") { %>
+        <% errors.splice(i, 1) %>
+      <% } %>
+      <li><%= errors[i].msg %></li>
+    <% } %>
+    </ul>
+<% } else { %>
+    <% console.log('No errors to display'); %>
+<% } %>
+
+<%- flashMessage() %>
+
+<%# addClassificationForm %>
+
+<form action="/inv/add-classification" method="POST" id="add-classification-form">
+  <fieldset>
+    <legend>Add Inventory Classification</legend>
+
+    <label for="classification_name">Classification Name: <span>*</span></label>
+    <input type="text" 
+            id="classification_name" 
+            name="classification_name" 
+            laceholder="Enter in classification name e.g. Electronics" 
+            placeholder="e.g. Caterpillar" 
+            value="<%= locals.classification_name %>"
+            pattern="^[A-Z][A-Za-z0-9]*$"
+            required>
+    <small>
+      Name must have the following requirements:<br>
+      - Begin with an uppercase letter<br>
+      - Should not contain spaces<br>
+      - Should not contain special characters<br>
+    </small>
+  </fieldset>
+
+  <button type="submit">Add Classification</button>
+</form>

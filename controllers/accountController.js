@@ -68,23 +68,6 @@ accountCont.registerAccount = async function (req, res) {
     account_email,
     hashedPassword // Changed to from plain text account_password to hashed password
   )
-  
-  // // If account already exists, prevent duplicate registration
-  // const existingAccount = await accountModel.getAccountByEmail(account_email)
-  // if (existingAccount) {
-  //   req.flash("notice", "Account already exists.")
-    
-  //   // require("../utilities/account-validation")
-  //   //   .accountValidation.checkRegData
-
-  //   res.status(501).render("account/register", {
-  //     title: "Account Registration",
-  //     nav,
-  //     registerForm: utilities.buildRegisterForm,
-  //     errors
-  //   })
-  //   return
-  // }
 
   if (regResult) {
     req.flash(

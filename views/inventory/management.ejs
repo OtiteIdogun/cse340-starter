@@ -1,0 +1,52 @@
+<!-- Create a management view that will contain the links to begin and end the processes for tasks 2 and 3. -->
+
+
+<!-- The view should contain an appropriate title and h1 value to represent its role as a management view for all things dealing with inventory.
+The view must be capable of displaying a flash message sent from the existing inventory controller.
+The view should contain two links (no links are directly to a view, all must use the MVC approach):
+One to trigger a process to deliver an add new classification view (see Task 2).
+One to trigger a process to deliver an add new inventory view (see Task 3).
+The view must be delivered using the MVC architecture as with all other views.
+The view must meet the requirements of the frontend checklist.
+For now, there should NOT be a link to reach this view in any other view. It will be accessed only by direct manipulation of the URL. Use this route: site-name/inv/
+site-name/inv/
+). -->
+
+<!-- <%# 
+  // Check if the 'title' variable is defined.
+  if (title) {
+    // If it is defined, set the title of the page to the value of the 'title' variable.
+    document.title = title;
+  }
+%> -->
+<% 
+  // Check if the 'title' variable is defined.
+  if (title) {
+%>
+    <h1><%= title %></h1>
+<% 
+  } else { 
+    // If 'title' is not defined, redirect to the home page.
+    res.redirect('/'); 
+  } 
+%>
+
+<% if (errors) { %>
+    <ul class="notice">
+    <% for (let i = 0; i < errors.length; i++) { %>
+      <% if (errors[i].msg == "Invalid value") { %>
+        <% errors.splice(i, 1) %>
+      <% } %>
+      <li><%= errors[i].msg %></li>
+    <% } %>
+    </ul>
+<% } else { %>
+    <% console.log('No errors to display'); %>
+<% } %>
+
+<%- flashMessage() %>
+
+<ul id="management-links">
+  <li><a href="/inv/add-classification">Add New Classification</a></li>
+  <li><a href="/inv/add-inventory">Add New Inventory</a></li>
+</ul>

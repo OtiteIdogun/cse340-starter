@@ -12,9 +12,15 @@ async function registerAccount(account_firstname, account_lastname, account_emai
       VALUES ($1, $2, $3, $4, 'Client') 
       RETURNING *`
     
+    // // If account already exists, prevent duplicate registration
+    // const existingAccount = await pool.query("SELECT * FROM account WHERE account_email = $1", [account_email]);
+    // if (existingAccount.rows.length > 0) {
+    //   throw new Error("Account already exists");
+    // }
+
     // If account already exists, prevent duplicate registration
-    const existingAccount = await pool.query("SELECT * FROM account WHERE account_email = $1", [account_email]);
-    if (existingAccount.rows.length > 0) {
+    accountEmail = await checkExistingAccountByEmail(account_email)
+    if (accountEmail) {
       throw new Error("Account already exists");
     }
 

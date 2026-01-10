@@ -40,6 +40,9 @@ async function getInventoryByClassificationId(classification_id) {
 
 // getInventoryByClassificationId(2);
 
+/* ============================================================================ *
+ *  Get inventory item details by inv_id
+ * ============================================================================ */  
 async function getInventoryItemDetailsById(inv_id) {
   try {
     let sql = `SELECT * FROM public.inventory AS i 
@@ -66,7 +69,90 @@ async function getInventoryItemDetailsById(inv_id) {
 // getInventoryItemDetailsById(2);
 
 /* ============================================================================ *
+ *  Add new inventory classification
+ * ============================================================================ */
+addNewInventoryClassification = async (classificationName) => {
+  try {
+    let sql = `INSERT INTO public.classification (classification_name) 
+               VALUES ($1)`;
+    const data = await pool.query(sql, [classificationName]);
+
+    // console.log(`addNewInventoryClassification (models/inventory-model.js): \n${'-'.repeat(30)}\n Added new classification: ${classificationName}\n data.rowCount: ${data.rowCount}\n${'-'.repeat(30)}`);
+    return data;
+  } catch (error) {
+    console.error("addNewClassification error: " + error);
+  }
+}
+
+/* ============================================================================ *
+ *  Check for existing classification
+ * ============================================================================ */
+checkExistingClassification = async (classification_name) => {
+  try {
+    const sql = "SELECT classification_name FROM public.classification WHERE classification_name = $1";
+    const data = await pool.query(sql, [classification_name]);
+    return data.rowCount // OR data.rows.length > 0;
+  } catch (error) {
+    console.error("checkExistingClassification error: " + error);
+    return error.message
+  }
+}
+
+/* ============================================================================ *
+ *  Get classification name by ID
+ * ============================================================================ */
+getClassificationName = async (classification_id) => {
+  try {
+    const sql = "SELECT classification_name FROM public.classification WHERE classification_id = $1";
+    const data = await pool.query(sql, [classification_id]);
+    return data.rows[0].classification_name;
+  } catch (error) {
+    console.error("getClassificationName error: " + error);
+    return error.message
+  }
+}
+
+addNewInventoryItem = async (classification_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color) => {
+  try {
+    let sql = `INSERT INTO public.inventory 
+               (inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) 
+               VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
+    const data = await pool.query(sql, [inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id]);
+
+    console.log("(models/inventory-model.js) addNewInventoryItem", data.rows);
+    return data;
+  } catch (error) {
+    console.error("addNewInventoryItem error: " + error);
+  }
+}
+
+checkExistingInventoryItem = async (inv_make, inv_model, inv_year, inv_color, classification_id) => {
+  try {
+    const sql = `SELECT * FROM public.inventory 
+                 WHERE inv_make = $1 
+                 AND inv_model = $2 
+                 AND inv_year = $3 
+                 AND inv_color = $4 
+                 AND classification_id = $5`;
+    const data = await pool.query(sql, [inv_make, inv_model, inv_year, inv_color, classification_id]);
+    return data.rowCount > 0;
+  } catch (error) {
+    console.error("checkExistingInventoryItem error: " + error);
+    return error.message;
+  }
+}
+
+/* ============================================================================ *
  * Exported Functions
  * ============================================================================ */
-// Export the 'getClassifications' function for use in other modules.
-module.exports = { getClassifications , getInventoryByClassificationId, getInventoryItemDetailsById };
+// module.exports = { getClassifications , getInventoryByClassificationId, getInventoryItemDetailsById, addNewInventoryClassification, checkExistingClassification , addNewInventoryItem };
+module.exports = {
+  getClassifications,
+  getInventoryByClassificationId,
+  getInventoryItemDetailsById,
+  addNewInventoryClassification,
+  checkExistingClassification,
+  getClassificationName,
+  addNewInventoryItem,
+  checkExistingInventoryItem
+};
