@@ -30,7 +30,7 @@ accountValidation.registrationRules = () => {
     .escape()
     .notEmpty()
     .isEmail()
-    .normalizeEmail() // refer to validator.js docs
+    .normalizeEmail({ gmail_remove_dots: false }) // refer to validator.js docs
     .withMessage("A valid email is required.")
     .custom(async (account_email) => {
         const emailExists = await accountModel.checkExistingAccountByEmail(account_email)
@@ -65,7 +65,7 @@ accountValidation.loginRules = () => {
       .escape()
       .notEmpty()
       .isEmail()
-      .normalizeEmail() // refer to validator.js docs
+      .normalizeEmail({ gmail_remove_dots: false }) // refer to validator.js docs
       .withMessage("A valid email is required.")
       .custom(async (account_email) => {
         const emailExists = await accountModel.checkExistingAccountByEmail(account_email)
