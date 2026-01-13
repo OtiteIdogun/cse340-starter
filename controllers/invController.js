@@ -35,6 +35,7 @@ invCont.buildInventoryViewByClassificationId = async function (req, res, next) {
     title: className + " Vehicles", // Set the title of the rendered page dynamically.
     nav, // Pass the navigation data to the template.
     grid, // Pass the grid data for displaying the inventory items.
+    accountData: res.locals.accountData
   });
 }
 
@@ -54,6 +55,7 @@ invCont.buildInventoryDetailViewByInvId = async function (req, res, next) {
     title: `${carData[0].inv_year} ${carData[0].inv_make} ${carData[0].inv_model}`,
     nav: navigation,
     carDetails: carDetails,
+    accountData: res.locals.accountData
   });
 }
 
@@ -63,7 +65,8 @@ invCont.buildInventoryManagementView = async function (req, res, next) {
   res.render("./inventory/management", { 
     errors: null,
     title: "Inventory Management", 
-    nav 
+    nav,
+    accountData: res.locals.accountData
   }); // Render the inventory management view using the navigation data.
 };
 
@@ -76,8 +79,9 @@ invCont.buildAddNewClassificationView = async function (req, res, next) {
     title: "Add New Classification",
     nav,
     // classification_name,
-    addClassificationForm, 
+    addClassificationForm,
     errors: null,
+    accountData: res.locals.accountData
   }); // Render the add new classification view using the navigation data.
 };
 
@@ -94,11 +98,12 @@ invCont.addClassification = async function (req, res, next) {
       `Congratulations, the ${classification_name.toUpperCase()} classification was added successfully.`
     );
 
-    res.status(201).render("inventory/add-classification", { 
-      title: "Add New Classification", 
+    res.status(201).render("inventory/add-classification", {
+      title: "Add New Classification",
       nav,
       addClassificationForm,
       errors: null,
+      accountData: res.locals.accountData
     });
   } else {
     req.flash(
@@ -106,11 +111,12 @@ invCont.addClassification = async function (req, res, next) {
       `Sorry, the ${classification_name.toUpperCase()} classification could not be added. Please try again.`
     );
 
-    res.status(501).render("inventory/add-classification", { 
-      title: "Add New Classification", 
+    res.status(501).render("inventory/add-classification", {
+      title: "Add New Classification",
       nav,
       addClassificationForm,
       errors: null,
+      accountData: res.locals.accountData
     });
   }
 };
@@ -129,9 +135,10 @@ invCont.buildAddNewInventoryView = async function (req, res, next) {
   res.render("./inventory/add-inventory", {
     title: "Add New Inventory",
     nav,
-    addInventoryForm, 
+    addInventoryForm,
     classificationSelectionList,
     errors: null,
+    accountData: res.locals.accountData
   }); // Render the add new inventory view using the navigation data.
 };
 
@@ -155,7 +162,7 @@ invCont.addInventory = async function (req, res, next) {
     // console.log("(invController.js) req.body:", req.body);
 
     res.status(501).render("inventory/add-inventory", {
-      title: "Add New Inventory", 
+      title: "Add New Inventory",
       nav,
       addInventoryForm,
       inv_make,
@@ -170,6 +177,7 @@ invCont.addInventory = async function (req, res, next) {
       classification_id,
       classificationSelectionList,
       errors: null,
+      accountData: res.locals.accountData
     });
     return;
   } else if (!checkExistingInventoryItem) {
@@ -182,12 +190,13 @@ invCont.addInventory = async function (req, res, next) {
       `Congratulations, the Inventory Item ${inv_make.toUpperCase()} ${inv_model.toUpperCase()} - ${classificationName.toUpperCase()} was added successfully.`
     );
 
-    res.status(201).render("inventory/add-inventory", { 
-      title: "Add New Inventory", 
+    res.status(201).render("inventory/add-inventory", {
+      title: "Add New Inventory",
       nav,
       classificationSelectionList,
       addInventoryForm,
       errors: null,
+      accountData: res.locals.accountData
     });
   } else {
     req.flash(
@@ -196,7 +205,7 @@ invCont.addInventory = async function (req, res, next) {
     );  
 
     res.status(501).render("inventory/add-inventory", {
-      title: "Add New Inventory", 
+      title: "Add New Inventory",
       nav,
       addInventoryForm,
       inv_make,
@@ -211,6 +220,7 @@ invCont.addInventory = async function (req, res, next) {
       classification_id,
       classificationSelectionList,
       errors: null,
+      accountData: res.locals.accountData
     });
   }
 

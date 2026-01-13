@@ -483,25 +483,44 @@ Util.buildAccountManagemetDetailPage = async (data) => {
 /* ============================================================================ *
 * Middleware to check token validity
 * ============================================================================ */
+
+// Function to check for a valid JWT token in cookies
 Util.checkJWTToken = (req, res, next) => {
- if (req.cookies.jwt) {
-   jwt.verify(
-     req.cookies.jwt,
-     process.env.ACCESS_TOKEN_SECRET,
-     function (err, accountData) {
-       if (err) {
-         req.flash("Please log in");
-         res.clearCookie("jwt");
-         return res.redirect("/account/login");
-       }
-       res.locals.accountData = accountData;
-       res.locals.loggedin = 1;
-       next();
-     }
-   );
- } else {
-   next();
- }
+  // Check if the JWT token exists in the cookies
+  if (req.cookies.jwt) {
+    // Verify the JWT token using the secret key
+    jwt.verify(
+      req.cookies.jwt, // The token to verify
+      process.env.ACCESS_TOKEN_SECRET, // Secret used to validate the token
+      function (err, accountData) {
+        // Callback function that executes after verification
+        
+        // If there is an error during token verification (token is invalid or expired)
+        if (err) {
+          // Store a flash message to inform the user to log in
+          req.flash("Please log in");
+          
+          // Clear the jwt cookie as it is no longer valid
+          res.clearCookie("jwt");
+          
+          // Redirect the user to the login page
+          return res.redirect("/account/login");
+        }
+
+        // If token is valid, store the account data in response locals for later use
+        res.locals.accountData = accountData;
+        
+        // Set a flag indicating the user is logged in
+        res.locals.loggedin = 1;
+        
+        // Proceed to the next middleware or route handler
+        next();
+      }
+    );
+  } else {
+    // If there is no JWT token, call next() to continue without setting account data
+    next();
+  }
 }
 
 // Export the Util object for use in other modules.

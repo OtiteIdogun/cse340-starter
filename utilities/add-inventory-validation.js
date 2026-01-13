@@ -130,6 +130,7 @@ addInventoryValidation.checkInventoryData = async (req, res, next) => {
       inv_price,
       classificationSelectionList,
       errors: errors.array(),
+      accountData: res.locals.accountData
     });
     return;
   } else {

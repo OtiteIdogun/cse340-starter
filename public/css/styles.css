@@ -26,6 +26,7 @@
   --light-background-color: #f0f0f0;
   --border-color: #e0e0e0;
   --form-color: rgb(50, 71, 92, 1.90);
+  --logout-color: #ff4d4d;
 }
 
 *,
@@ -95,6 +96,23 @@ header #tools a:hover {
   text-decoration: underline;
   text-underline-offset: 4px;
   color: var(--primary-color-rgba);
+}
+
+
+header #logout-link {
+  text-decoration: none;
+  text-underline-offset: 4px;
+  color: var(--white-color);
+  background-color: var(--primary-color-rgba);
+  padding: 6px 12px;
+  border-radius: 0px;
+  margin-left: 4px;
+}
+
+header #logout-link[href="/account/logout"]:hover {
+  background-color: var(--danger-color);
+  text-decoration: none;
+  color: var(--white-color);
 }
 
 /* ============================================================ *

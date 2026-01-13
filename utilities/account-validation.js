@@ -115,7 +115,8 @@ accountValidation.checkRegData = async (req, res, next) => {
       account_firstname,
       account_lastname,
       account_email: clean_email,
-      registerForm: utilities.buildRegisterForm(account_firstname, account_lastname, clean_email)
+      registerForm: utilities.buildRegisterForm(account_firstname, account_lastname, clean_email),
+      accountData: res.locals.accountData
     })
     return
   }
@@ -153,7 +154,8 @@ accountValidation.checkLoginData = async (req, res, next) => {
       title: "Account Login",
       nav,
       account_email: clean_email,
-      loginForm: utilities.buildLoginForm(clean_email)
+      loginForm: utilities.buildLoginForm(clean_email),
+      accountData: res.locals.accountData
     })
     return
   }

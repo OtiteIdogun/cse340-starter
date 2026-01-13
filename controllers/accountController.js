@@ -19,7 +19,8 @@ accountCont.buildAccountLoginView = async function (req, res, next) {
       title: "Account Login", 
       nav,
       loginForm,
-      errors: null  // Add this line to add the error variable to the view
+      errors: null,  // Add this line to add the error variable to the view
+      accountData: res.locals.accountData
     }); // Render the account management view using the navigation data.
 };
 

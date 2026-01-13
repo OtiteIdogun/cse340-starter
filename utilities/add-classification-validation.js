@@ -48,6 +48,8 @@ addClassificationValidation.checkClassificationData = async (req, res, next) => 
       nav,
       classification_name,
       errors: errors.array(),
+      addClassificationForm: utilities.buildAddClassificationForm(classification_name),
+      accountData: res.locals.accountData
     });
     return;
   } else {
