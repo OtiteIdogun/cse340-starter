@@ -1,0 +1,28 @@
+<% 
+  // Check if the 'title' variable is defined.
+  if (title) { 
+%>
+    <h1><%= title %></h1>
+<% 
+  } else { 
+    // If 'title' is not defined, redirect to the home page.
+    res.redirect('/'); 
+  } 
+%>
+
+<%- flashMessage() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+    <% for (let i = 0; i < errors.length; i++) { %>
+      <% if (errors[i].msg == "Invalid value") { %>
+        <% errors.splice(i, 1) %>
+      <% } %>
+      <li><%= errors[i].msg %></li>
+    <% } %>
+    </ul>
+<% } else { %>
+    <%# console.log('No errors to display'); %>
+<% } %>
+
+<%- accountDetails %>

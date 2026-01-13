@@ -764,6 +764,45 @@ form a:hover {
   text-underline-offset: 3px;
 }
 
+.account-detail-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: var(--form-color);
+  color: var(--white-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.account-detail-container h2 {
+  margin-bottom: 15px;
+  color: var(--white-color);
+}
+
+.account-detail-container p {
+  line-height: 2.0;
+}
+
+.account-detail-container p strong {
+  color: #00d4f0;
+  color: var(--white-color);
+  font-weight: 700;
+  display: inline-block;
+  min-width: 120px;
+}
+
+.account-detail-container a {
+  color: #00d4f0;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 16px;
+}
+
+.account-detail-container a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 /* ============================================================== *
  Footer Styles
  ================================================================ */

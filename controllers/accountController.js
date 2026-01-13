@@ -2,11 +2,13 @@ const accountModel = require("../models/account-model"); // Import the account m
 const utilities = require("../utilities/"); // Import utility functions for additional functionality (e.g., building UI components).
 const accountValidation = require("../utilities/account-validation");
 const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 const accountCont = {}; // Initialize an empty object to hold account controller methods.
 
 /* ============================================================================ *
- * Build Account Management View
+ * Build Account Login View
  * ============================================================================ */
 // Define an asynchronous method 'buildAccountManagementView' within the accountController object.
 accountCont.buildAccountLoginView = async function (req, res, next) {
@@ -105,5 +107,108 @@ accountCont.registerAccount = async function (req, res) {
     })
   }
 }
+
+/* ============================================================================ *
+ * Build Account Management View
+ * ============================================================================ */
+// Account Management View
+// As mentioned in the login code explanation, when a client is successful in a login attempt, they are redirected to an account management view. The view must be reachable via the default location "/" attached to the "/account" route. As a team exercise, do the following:
+
+// Add the new default route for accounts to the accountRoute file.
+// Create a new view in the views > account folder. It should have the normal components as all the other views and also be able to display a flash message and errors.
+// For now, the only content will be "You're logged in".
+// Build the function in the accountController to process the request and deliver the view.
+// Once the view is in place, test the application to see if you can log in, and be successfully redirected to the account management view. Note: You may have to register a new account if you don't know the password of an already existing account, and the password must meet the requirements. Keep at it, working together, until everyone in your team is successful.
+
+accountCont.buildAccountManagementView = async function (req, res, next) {
+  let nav = await utilities.getNav(); // Get the navigation data for rendering the navigation menu.
+  const account_email = res.locals.accountData.account_email;
+  let retrievedAccountData = await accountModel.getAccountByEmail(account_email);
+  let accountDetails = await utilities.buildAccountManagemetDetailPage(retrievedAccountData);
+
+  res.render("./account/management", {
+      title: "Account Management",
+      nav,
+      accountDetails,
+      errors: null  // Add this line to add the error variable to the view
+    }); // Render the account management view using the navigation data.
+}
+
+/* ============================================================================ *
+ * Process Login
+ * ============================================================================ */
+accountCont.loginAccount = async function (req, res) {
+  let nav = await utilities.getNav();
+  const { account_email, account_password } = req.body;
+
+  const accountData = await accountModel.getAccountByEmail(account_email);
+
+  // if (accountData && await bcrypt.compare(account_password, accountData.account_password)) {
+  //   req.flash("notice", "Login successful.");
+  //   res.redirect("/account/management");
+  // } else {
+  //   req.flash("notice", "Login failed.");
+  //   res.status(401).render("account/login", {
+  //     title: "Account Login",
+  //     nav,
+  //     errors: null, // Ensure errors is null if none are present when rendering the login view
+  //     loginForm: utilities.buildLoginForm(),
+  //   });
+  // }
+
+  if (!accountData) {
+    req.flash("notice", "Please check your credentials and try again.");
+    res.status(400).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email,
+    });
+    return;
+  }
+
+  try {
+    if (await bcrypt.compare(account_password, accountData.account_password)) {
+      delete accountData.account_password;
+
+      const accessToken = jwt.sign(
+        accountData,
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: 3600 * 1000 }
+      );
+
+      if (process.env.NODE_ENV === "development") {
+        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
+      } else {
+        res.cookie("jwt", accessToken, {
+          httpOnly: true,
+          secure: true,
+          maxAge: 3600 * 1000,
+        });
+      }
+      
+      req.flash(
+        "message notice",
+        "Login successful."
+      );
+
+      return res.redirect("/account/");
+    } else {
+      req.flash(
+        "message notice",
+        "Please check your credentials and try again."
+      );
+
+      res.status(400).render("account/login", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_email,
+      });
+    }
+  } catch (error) {
+    throw new Error("Access Forbidden");
+  }
+};
 
 module.exports = accountCont; // Export the account controller object for use in other parts of the application.

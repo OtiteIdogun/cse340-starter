@@ -2,6 +2,8 @@
 const { Template } = require("ejs");
 const invModel = require("../models/inventory-model");
 const e = require("express");
+const jwt = require("jsonwebtoken");
+require("dotenv").config()
 
 // Initialize an empty object to hold utility functions.
 const Util = {};
@@ -459,6 +461,48 @@ Util.buildClassificationList = async function (classification_id = null) {
   classificationList += "</select>";
   return classificationList;
 };
+
+Util.buildAccountManagemetDetailPage = async (data) => {
+  data = data; // Object is in an array: Extract the first object from the array.
+  // console.log(data);
+  return `
+    <div class="account-detail-container">
+      <h2>Welcome, ${data.account_firstname} ${data.account_lastname}</h2>
+      <div class="account-details">
+        <p><strong>First Name:</strong> ${data.account_firstname}</p>
+        <p><strong>Last Name:</strong> ${data.account_lastname}</p>
+        <p><strong>Email:</strong> ${data.account_email}</p>
+        <p><strong>Account Type:</strong> ${data.account_type}</p>
+      </div>
+
+      <a href="/account/edit/${data.account_id}" title="Edit Account Information">Edit Account Information</a>
+    </div>
+  `;
+};
+
+/* ============================================================================ *
+* Middleware to check token validity
+* ============================================================================ */
+Util.checkJWTToken = (req, res, next) => {
+ if (req.cookies.jwt) {
+   jwt.verify(
+     req.cookies.jwt,
+     process.env.ACCESS_TOKEN_SECRET,
+     function (err, accountData) {
+       if (err) {
+         req.flash("Please log in");
+         res.clearCookie("jwt");
+         return res.redirect("/account/login");
+       }
+       res.locals.accountData = accountData;
+       res.locals.loggedin = 1;
+       next();
+     }
+   );
+ } else {
+   next();
+ }
+}
 
 // Export the Util object for use in other modules.
 module.exports = Util;
