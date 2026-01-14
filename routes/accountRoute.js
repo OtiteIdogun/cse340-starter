@@ -9,7 +9,7 @@ const accountValidate = require('../utilities/account-validation')
  * ============================================================================ */
 
 // Route to display the account management view
-router.get("/", 
+router.get("/",
   utilities.checkLogin,
   utilities.handleErrors(accountController.buildAccountManagementView));
 
