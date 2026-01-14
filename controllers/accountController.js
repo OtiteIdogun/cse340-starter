@@ -39,7 +39,8 @@ accountCont.buildAccountRegistrationView = async function (req, res, next) {
       title: "Account Registration", 
       nav,
       errors: null,
-      registerForm
+      registerForm,
+      accountData: res.locals.accountData
     }); // Render the account registration view using the navigation data.
 };
 
@@ -62,6 +63,7 @@ accountCont.registerAccount = async function (req, res) {
       title: "Registration",
       nav,
       errors: null,
+      accountData: res.locals.accountData
     })
   }
 
@@ -83,6 +85,7 @@ accountCont.registerAccount = async function (req, res) {
       nav,
       errors: null, // Ensure errors is null if none are present when rendering the login view
       loginForm: utilities.buildLoginForm(),
+      accountData: res.locals.accountData
     })
 
   } else {
@@ -104,23 +107,15 @@ accountCont.registerAccount = async function (req, res) {
       title: "Account Registration",
       nav,
       errors: null, // Ensures errors is null if none are present when rendering the login view
-      registerForm: utilities.buildRegisterForm()
+      registerForm: utilities.buildRegisterForm(),
+      accountData: res.locals.accountData
     })
   }
 }
 
 /* ============================================================================ *
- * Build Account Management View
+ * Account Management View
  * ============================================================================ */
-// Account Management View
-// As mentioned in the login code explanation, when a client is successful in a login attempt, they are redirected to an account management view. The view must be reachable via the default location "/" attached to the "/account" route. As a team exercise, do the following:
-
-// Add the new default route for accounts to the accountRoute file.
-// Create a new view in the views > account folder. It should have the normal components as all the other views and also be able to display a flash message and errors.
-// For now, the only content will be "You're logged in".
-// Build the function in the accountController to process the request and deliver the view.
-// Once the view is in place, test the application to see if you can log in, and be successfully redirected to the account management view. Note: You may have to register a new account if you don't know the password of an already existing account, and the password must meet the requirements. Keep at it, working together, until everyone in your team is successful.
-
 accountCont.buildAccountManagementView = async function (req, res, next) {
   let nav = await utilities.getNav(); // Get the navigation data for rendering the navigation menu.
   const account_email = res.locals.accountData.account_email;
@@ -131,7 +126,8 @@ accountCont.buildAccountManagementView = async function (req, res, next) {
       title: "Account Management",
       nav,
       accountDetails,
-      errors: null  // Add this line to add the error variable to the view
+      errors: null,  // Add this line to add the error variable to the view
+      accountData: res.locals.accountData
     }); // Render the account management view using the navigation data.
 }
 
@@ -142,7 +138,7 @@ accountCont.loginAccount = async function (req, res) {
   let nav = await utilities.getNav();
   const { account_email, account_password } = req.body;
 
-  const accountData = await accountModel.getAccountByEmail(account_email);
+  const accountDataRetrieved = await accountModel.getAccountByEmail(account_email);
 
   // if (accountData && await bcrypt.compare(account_password, accountData.account_password)) {
   //   req.flash("notice", "Login successful.");
@@ -157,33 +153,34 @@ accountCont.loginAccount = async function (req, res) {
   //   });
   // }
 
-  if (!accountData) {
-    req.flash("notice", "Please check your credentials and try again.");
+  if (!accountDataRetrieved) { // No account found
+    req.flash("notice", "No account found. Please check your credentials and try again.");
     res.status(400).render("account/login", {
-      title: "Login",
+      title: "Account Login",
       nav,
       errors: null,
       account_email,
+      accountData: res.locals.accountData
     });
     return;
   }
 
   try {
-    if (await bcrypt.compare(account_password, accountData.account_password)) {
-      delete accountData.account_password;
+    if (await bcrypt.compare(account_password, accountDataRetrieved.account_password)) {
+      delete accountDataRetrieved.account_password;
 
       const accessToken = jwt.sign(
-        accountData,
+        accountDataRetrieved,
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: 3600 * 1000 }
       );
 
-      if (process.env.NODE_ENV === "development") {
+      if (process.env.NODE_ENV === "development") { // In development, set cookie without 'secure' flag
         res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
       } else {
         res.cookie("jwt", accessToken, {
           httpOnly: true,
-          secure: true,
+          secure: true, // Cookie set with 'secure' flag and only sent over HTTPS in production
           maxAge: 3600 * 1000,
         });
       }
@@ -201,10 +198,11 @@ accountCont.loginAccount = async function (req, res) {
       );
 
       res.status(400).render("account/login", {
-        title: "Login",
+        title: "Account Login",
         nav,
         errors: null,
         account_email,
+        accountData: res.locals.accountData
       });
     }
   } catch (error) {
