@@ -657,7 +657,7 @@ form button {
   width: 100%;
   display: block;
   text-align: center;
-  margin: 20 px 0 0;
+  margin: 20px 0 0;
   font-size: 16px;
   cursor: pointer;
 }
@@ -687,11 +687,12 @@ form a:hover {
 }
 
 /* ============================================================== *
- Add Classification and Inventory Form Styles
+ Add Classification, Add Inventory, and Edit Inventory Form Styles
  ================================================================ */
 
 #add-classification-form,
-#add-inventory-form {
+#add-inventory-form,
+#edit-inventory-form {
   background-color: var(--form-color);
   max-width: 650px;
   margin: 0 auto;
@@ -701,7 +702,8 @@ form a:hover {
 }
 
 #add-classification-form fieldset,
-#add-inventory-form fieldset {
+#add-inventory-form fieldset,
+#edit-inventory-form fieldset {
   border: none;
   margin: 0;
   padding: 0;
@@ -709,18 +711,22 @@ form a:hover {
 }
 
 #add-classification-form legend,
-#add-inventory-form legend {
+#add-inventory-form legend,
+#edit-inventory-form legend {
   margin-bottom: 10px;
 }
 
 #add-classification-form button,
-#add-inventory-form button {
-  width: 200px;
+#add-inventory-form button,
+#edit-inventory-form button {
+  width: 100%;
   margin-left: auto;
 }
 
 #add-inventory-form select,
-#add-inventory-form textarea {
+#edit-inventory-form select,
+#add-inventory-form textarea,
+#edit-inventory-form textarea {
   width: 100%;
   padding: 12px;
   margin-top: 5px;
@@ -729,7 +735,8 @@ form a:hover {
   font-size: 16px;
 }
 
-#add-inventory-form textarea {
+#add-inventory-form textarea,
+#edit-inventory-form textarea {
   height: 100px;
   font-size: 16px;
   resize: none;
@@ -874,7 +881,7 @@ form a:hover {
   border-bottom: 1px solid #ddd;
 }
 
-.inventory-management-container table a {
+.inventory-management-container table #update {
   margin-left: 8px;
   color: var(--primary-color); /* Blue link color - good contrast */
   text-decoration: none;
