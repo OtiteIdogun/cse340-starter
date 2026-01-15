@@ -241,8 +241,34 @@ invCont.getInventoryJSONByClassificationId = async (req, res, next) => {
   }
 }
 
+invCont.buildModifyInventoryView = async function (req, res, next) {
+  const inv_id = parseInt(req.params.inv_id)
+  let nav = await utilities.getNav()
+  const inventoryItemData = await invModel.getInventoryById(inv_id)
+  const classificationSelect = await utilities.buildClassificationList(inventoryItemData.classification_id)
+  const itemName = `${inventoryItemData.inv_make} ${inventoryItemData.inv_model}`
+
+  res.render("./inventory/edit-inventory", {
+    title: "Edit Inventory - " + itemName,
+    nav,
+    classificationSelectionOptionsList: classificationSelect,
+    errors: null,
+    inv_id: inventoryItemData.inv_id,
+    inv_make: inventoryItemData.inv_make,
+    inv_model: inventoryItemData.inv_model,
+    inv_year: inventoryItemData.inv_year,
+    inv_description: inventoryItemData.inv_description,
+    inv_image: inventoryItemData.inv_image,
+    inv_thumbnail: inventoryItemData.inv_thumbnail,
+    inv_price: inventoryItemData.inv_price,
+    inv_miles: inventoryItemData.inv_miles,
+    inv_color: inventoryItemData.inv_color,
+    classification_id: inventoryItemData.classification_id, 
+    accountData: res.locals.accountData
+  })
+};
+
 /* ============================================================================ *
  *  Export the controller
  * ============================================================================ */
-// Export the inventory controller object for use in other parts of the application.
-module.exports = invCont;
+module.exports = invCont; // Export the inventory controller object for use in other parts of the application.
