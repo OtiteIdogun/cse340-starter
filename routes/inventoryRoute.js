@@ -21,48 +21,75 @@ const addInventoryValidate = require('../utilities/add-inventory-validation')
  * ============================================================================ */
 router.get("/type/:classificationId", utilities.handleErrors(invController.buildInventoryViewByClassificationId)); // /inv is the base route used in server.js 
 
-// Route to build inventory item detail view
-router.get("/detail/:invId", utilities.handleErrors(invController.buildInventoryDetailViewByInvId));
+/* ============================================================================ *
+ * Inventory Item Detail Routes
+ * ============================================================================ */
+router.get("/detail/:invId", utilities.handleErrors(invController.buildInventoryDetailViewByInvId)); // Route to build inventory item detail view
 
-// Route to build inventory management view
-router.get("/", invController.buildInventoryManagementView); /* OR /management as route */
+/* ============================================================================ *
+ * Inventory Management View Routes
+ * ============================================================================ */
+router.get("/", invController.buildInventoryManagementView); /* OR /management as route */ // Route to build inventory management view
 
-// The view must:
-// Contain a form for adding a new classification (you will only need to add the classification name, the primary key in the table is auto-incrementing).
-// The form must contain a direction that the new classification name cannot contain a space or special character of any kind.
-// The form must contain client-side validation.
-// The view must be delivered via a route and using the MVC architecture as with all other views.
-// The view must meet the requirements of the frontend checklist.
-// The form must send all data through the appropriate router, where server-side validation middleware is present, then on to the inventory controller and then to a function within the inventory model for insertion to the database.
-// The view must have the means of displaying a flash message returned to it from the controller, as well as errors returned as a result of the server-side validation.
-// If the insertion works, the controller should create a new navigation bar (which shows the new classification) and render the management view, along with a success message. Note: if it works, the new classification should appear as a navigation item immediately, without a page refresh. However, if it fails, then the add classification view should be rendered with a clear failure message.
+/* ============================================================================ *
+ * Add Classification View Routes
+ * ============================================================================ */
+router.get("/add-classification", utilities.handleErrors(invController.buildAddNewClassificationView)); // Route to build add new classification form view
 
-// Route to build add new classification form view
-router.get("/add-classification", utilities.handleErrors(invController.buildAddNewClassificationView));
-
-// Route to handle registration form submission
-router.post("/add-classification",
+/* ============================================================================ *
+ * Add Classification Processing Routes
+ * ============================================================================ */
+router.post("/add-classification", // Route to handle add new classification form submission
   addClassificationValidate.addClassificationRules(),
   addClassificationValidate.checkClassificationData,
   utilities.handleErrors(invController.addClassification)
-)
+);
 
-// // Route to build add new inventory form view
-router.get("/add-inventory", invController.buildAddNewInventoryView);
+/* ============================================================================ *
+ * Add Inventory View Routes
+ * ============================================================================ */
+router.get("/add-inventory", invController.buildAddNewInventoryView); // Route to build add new inventory form view
 
-// // Route to handle add new inventory form submission
-router.post("/add-inventory",
+/* ============================================================================ *
+ * Add Inventory Processing Routes
+ * ============================================================================ */
+router.post("/add-inventory", // Route to handle add new inventory form submission
   addInventoryValidate.addInventoryRules(),
   addInventoryValidate.checkInventoryData,
   utilities.handleErrors(invController.addInventory)
 );
 
-// Add a new route, that works with the URL in the JavaScript file that you just built:
-// /inv/getInventory/:classification_id
+/* ============================================================================ *
+ * Get Inventory JSON by Classification ID Route
+ * ============================================================================ */
 router.get("/getInventory/:classification_id", 
   // utilities.checkAccountType,
   utilities.handleErrors(invController.getInventoryJSONByClassificationId));
 
+/* ============================================================================ *
+ * Update and Delete Inventory Item Routes
+ * ============================================================================ */
+router.get("/edit/:inv_id", utilities.handleErrors(invController.buildModifyInventoryView)); // Route to build modify inventory item view
+
+router.get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteInventoryView)); // Route to build delete inventory item view
+
+router.post("/update-inventory", // Route to handle update inventory item form submission
+  addInventoryValidate.addInventoryRules(),
+  addInventoryValidate.checkInventoryData,
+  utilities.handleErrors(invController.updateInventory)
+);
+
+router.post("/delete-inventory", utilities.handleErrors(invController.deleteInventory)); // Route to handle delete inventory item form submission
+
+/* ============================================================================ *
+ * Classification Management View Routes
+ * ============================================================================ */
+// // Route to build classification management view
+// router.get("/classification-management", invController.buildClassificationManagementView);
+
+// /* ============================================================================ *
+//  * Classification Processing Routes
+//  * ============================================================================ */
 // // Route to build delete classification view
 // router.get("/delete-classification/:classificationId", invController.buildDeleteClassificationView);
 
