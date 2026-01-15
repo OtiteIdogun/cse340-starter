@@ -33,10 +33,7 @@
     <legend>Add New Inventory Vehicle</legend>
 
     <label for="classification_id">Classification: <span>*</span></label>
-    <select id="classification_id" name="classification_id" required>
-      <option value="" disabled selected>Select Classification</option>
-      <%- classificationSelectionList %>
-    </select>
+    <%- classificationSelectionOptionsList %>
 
     <label for="inv_make">Make: <span>*</span></label>
     <input type="text" 

@@ -46,7 +46,22 @@ site-name/inv/
 
 <%- flashMessage() %>
 
-<ul id="management-links">
+<ul id="inventory-management-links">
   <li><a href="/inv/add-classification">Add New Classification</a></li>
   <li><a href="/inv/add-inventory">Add New Inventory</a></li>
 </ul>
+
+<section class="inventory-management-container">
+  <h2>Inventory Management</h2>
+
+  <div class="classification-selection">
+    <p>Please choose a classification to view its inventory items:</p>
+    <%- classificationSelectionOptionsList %>
+  </div>
+
+  <table id="inventory-display"></table>
+</section>
+
+<noscript>Please enable JavaScript to view the full site.</noscript>
+
+<script src="../../js/inventory.js"></script>

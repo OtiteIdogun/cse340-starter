@@ -424,17 +424,35 @@ If the new item fails to be added to the database, a failure message must be dis
 
 Util.classificationListTemplateLiteral = (data, classification_id) => {
   return `
-      <!--
-      <option value="">Choose a Classification</option>
-      -->
+    <select id="classification-list" name="classification_id" required>
+      <option value="" disabled selected>Select Classification</option>
       ${data.rows
         .map(
           (row) =>
-            `<option label="${row.classification_name}" value="${row.classification_id}" ${
+            `<option label="${row.classification_name}" value="${
+              row.classification_id
+            }" ${
               classification_id == row.classification_id ? "selected" : ""
             }>${row.classification_name}</option>`
         )
         .join("")}
+    </select>
+
+
+    <!--
+    <option value="">Choose a Classification</option>
+    
+    ${data.rows
+      .map(
+        (row) =>
+          `<option label="${row.classification_name}" value="${
+            row.classification_id
+          }" ${
+            classification_id == row.classification_id ? "selected" : ""
+          }>${row.classification_name}</option>`
+      )
+      .join("")}
+    -->
   `;
 };
 
@@ -518,7 +536,9 @@ Util.checkJWTToken = (req, res, next) => {
       }
     );
   } else {
-    // If there is no JWT token, call next() to continue without setting account data
+    // If there is no JWT token, set accountData to null
+    res.locals.accountData = null;
+    // Call next() to continue
     next();
   }
 }

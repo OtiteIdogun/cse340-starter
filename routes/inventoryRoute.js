@@ -25,7 +25,7 @@ router.get("/type/:classificationId", utilities.handleErrors(invController.build
 router.get("/detail/:invId", utilities.handleErrors(invController.buildInventoryDetailViewByInvId));
 
 // Route to build inventory management view
-router.get("/management", invController.buildInventoryManagementView);
+router.get("/", invController.buildInventoryManagementView); /* OR /management as route */
 
 // The view must:
 // Contain a form for adding a new classification (you will only need to add the classification name, the primary key in the table is auto-incrementing).
@@ -56,6 +56,12 @@ router.post("/add-inventory",
   addInventoryValidate.checkInventoryData,
   utilities.handleErrors(invController.addInventory)
 );
+
+// Add a new route, that works with the URL in the JavaScript file that you just built:
+// /inv/getInventory/:classification_id
+router.get("/getInventory/:classification_id", 
+  // utilities.checkAccountType,
+  utilities.handleErrors(invController.getInventoryJSONByClassificationId));
 
 // // Route to build delete classification view
 // router.get("/delete-classification/:classificationId", invController.buildDeleteClassificationView);

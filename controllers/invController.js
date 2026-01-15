@@ -61,11 +61,13 @@ invCont.buildInventoryDetailViewByInvId = async function (req, res, next) {
 
 invCont.buildInventoryManagementView = async function (req, res, next) {
   let nav = await utilities.getNav(); // Get the navigation data for rendering the navigation menu.
+  let classificationSelectionOptionsList = await utilities.buildClassificationListWithTemplateLiteral();
 
   res.render("./inventory/management", { 
     errors: null,
     title: "Inventory Management", 
     nav,
+    classificationSelectionOptionsList,
     accountData: res.locals.accountData
   }); // Render the inventory management view using the navigation data.
 };
@@ -128,15 +130,15 @@ invCont.addClassification = async function (req, res, next) {
 invCont.buildAddNewInventoryView = async function (req, res, next) {
   let nav = await utilities.getNav(); // Get the navigation data for rendering the navigation menu.
   let addInventoryForm = utilities.buildAddInventoryForm();
-  let classificationSelectionList = await utilities.buildClassificationListWithTemplateLiteral(); // Build the classification selection list for the form.
-  
-  // console.log("(invController.js) classificationSelectionList:", classificationSelectionList);
+  let classificationSelectionOptionsList = await utilities.buildClassificationListWithTemplateLiteral(); // Build the classification selection list for the form.
+
+  // console.log("(invController.js) classificationSelectionOptionsList:", classificationSelectionOptionsList);
 
   res.render("./inventory/add-inventory", {
     title: "Add New Inventory",
     nav,
     addInventoryForm,
-    classificationSelectionList,
+    classificationSelectionOptionsList,
     errors: null,
     accountData: res.locals.accountData
   }); // Render the add new inventory view using the navigation data.
@@ -175,7 +177,7 @@ invCont.addInventory = async function (req, res, next) {
       inv_price,
       inv_miles,
       classification_id,
-      classificationSelectionList,
+      classificationSelectionOptionsList: classificationSelectionList,
       errors: null,
       accountData: res.locals.accountData
     });
@@ -193,7 +195,7 @@ invCont.addInventory = async function (req, res, next) {
     res.status(201).render("inventory/add-inventory", {
       title: "Add New Inventory",
       nav,
-      classificationSelectionList,
+      classificationSelectionOptionsList: classificationSelectionList,
       addInventoryForm,
       errors: null,
       accountData: res.locals.accountData
@@ -218,13 +220,26 @@ invCont.addInventory = async function (req, res, next) {
       inv_price,
       inv_miles,
       classification_id,
-      classificationSelectionList,
+      classificationSelectionOptionsList: classificationSelectionList,
       errors: null,
       accountData: res.locals.accountData
     });
   }
-
 };
+
+/* ============================================================================ *
+ *  Return Inventory by Classification As JSON
+ * ============================================================================ */
+invCont.getInventoryJSONByClassificationId = async (req, res, next) => {
+  const classification_id = parseInt(req.params.classification_id);
+  const invData = await invModel.getInventoryByClassificationId(classification_id);
+  
+  if (invData[0].inv_id) {
+    return res.json(invData);
+  } else {
+    next(new Error("No data returned"));
+  }
+}
 
 /* ============================================================================ *
  *  Export the controller
