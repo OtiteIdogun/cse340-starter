@@ -384,44 +384,6 @@ Util.buildAddInventoryForm = (classification_id="", inv_make="", inv_model="", i
   `;
 };
 
-
-/*
-Task Three
-Create an add inventory view in the views > inventory folder. The view must:
-Contain a form for adding a new vehicle to the inventory table. (Hint: Check the inventory table in the database for the fields that will be needed in the form. DO NOT have a form field for the primary key as it is auto-incrementing in the database table).
-The form must use client-side validation for all inputs.
-Form inputs, including the select list for classifications, must be sticky, to retain the information when errors are detected and returned.
-When indicating the classification the vehicle belongs to, the classification options must appear in a drop-down select list. The classification name must appear to the human eye, but the classification_id must be the value of each option. The select element drop-down list that should have been dynamically pre-built in the utilities > index file and passed to the view by the controller. (Hint: This will be similar to building the navigation bar, but will be wrapped inside a select element with options instead of an unordered list with list items.)
-To help you, the following code exemplifies what the select list would look like:
-
-Util.buildClassificationList = async function (classification_id = null) {
-    let data = await invModel.getClassifications()
-    let classificationList =
-      '<select name="classification_id" id="classificationList" required>'
-    classificationList += "<option value=''>Choose a Classification</option>"
-    data.rows.forEach((row) => {
-      classificationList += '<option value="' + row.classification_id + '"'
-      if (
-        classification_id != null &&
-        row.classification_id == classification_id
-      ) {
-        classificationList += " selected "
-      }
-      classificationList += ">" + row.classification_name + "</option>"
-    })
-    classificationList += "</select>"
-    return classificationList
-  }
-An explanation of the code is not provided here. It is expected that you will study the code and discuss it with others in your learning team to ensure you understand it. If you have questions, please ask them in the discussion board.
-When adding image paths, use the path to the No Image Available image and thumbnail respectively, that already exists in the vehicle images folder, or you could find and add a new image for the vehicle manually to the images folder and include the path in the form.
-The view must have the means of displaying a flash message returned to it from the controller, as well as errors returned from the server-side validation process.
-The view must meet the requirements of the frontend checklist.
-The form must send all data via a route and using the MVC architecture as with other processes.
-The data must be written to the inventory table within the database using a model-based function.
-If the new inventory item is added successfully, a success message must be displayed in the management view. If successful, you can navigate through the appropriate navigation item to ensure the item appears in the inventory by classification view, and can be clicked to see all the item's details.
-If the new item fails to be added to the database, a failure message must be displayed in the add inventory view.
-*/
-
 Util.classificationListTemplateLiteral = (data, classification_id) => {
   return `
     <select id="classification-list" name="classification_id" required>
@@ -463,7 +425,7 @@ Util.buildClassificationListWithTemplateLiteral = async function (classification
 
 Util.buildClassificationList = async function (classification_id = null) {
   let data = await invModel.getClassifications();
-  let classificationList ='<select name="classification_id" id="classificationList" required>';
+  let classificationList ='<select name="classification_id" id="classification-list" required>';
 
   classificationList += "<option value=''>Choose a Classification</option>";
   data.rows.forEach((row) => {
