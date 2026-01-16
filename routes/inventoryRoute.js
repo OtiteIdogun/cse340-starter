@@ -5,9 +5,15 @@ const invController = require("../controllers/invController")
 const utilities = require("../utilities/index")
 const addClassificationValidate = require('../utilities/add-classification-validation')
 const addInventoryValidate = require('../utilities/add-inventory-validation')
+const editInventoryValidate = require('../utilities/edit-inventory-validation')
 
-// Route to build inventory by classification view
 /* ============================================================================ *
+ * Inventory by Classification View Routes - Route to build inventory by classification view
+ * ============================================================================ */
+
+/***
+  Example URL: "/inv/type/:classificationId"
+
   This GET route allows access to inventory items based on their classification ID. 
   The base route "/inv" is defined in server.js, so when a request is made 
   to the complete URL "/inv/type/:classificationId", this route will be triggered. 
@@ -18,7 +24,7 @@ const addInventoryValidate = require('../utilities/add-inventory-validation')
 
   Example Usage: For a request to "/inv/type/123", the application will
   fetch and present items classified under the ID 123.
- * ============================================================================ */
+ */
 router.get("/type/:classificationId", utilities.handleErrors(invController.buildInventoryViewByClassificationId)); // /inv is the base route used in server.js 
 
 /* ============================================================================ *
@@ -72,14 +78,6 @@ router.get("/getInventory/:classification_id",
 router.get("/edit/:inv_id", utilities.handleErrors(invController.buildModifyInventoryView)); // Route to build modify inventory item view
 
 router.get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteInventoryView)); // Route to build delete inventory item view
-
-router.post("/update-inventory", // Route to handle update inventory item form submission
-  addInventoryValidate.addInventoryRules(),
-  addInventoryValidate.checkInventoryData,
-  utilities.handleErrors(invController.updateInventory)
-);
-
-router.post("/delete-inventory", utilities.handleErrors(invController.deleteInventory)); // Route to handle delete inventory item form submission
 
 /* ============================================================================ *
  * Classification Management View Routes
