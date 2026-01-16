@@ -79,6 +79,12 @@ router.get("/edit/:inv_id", utilities.handleErrors(invController.buildModifyInve
 
 router.get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteInventoryView)); // Route to build delete inventory item view
 
+router.post("/update-inventory", // Route to handle update inventory item form submission
+  editInventoryValidate.editInventoryRules(),
+  editInventoryValidate.checkInventoryData,
+  utilities.handleErrors(invController.updateInventory)
+);
+
 /* ============================================================================ *
  * Classification Management View Routes
  * ============================================================================ */
