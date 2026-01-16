@@ -263,7 +263,7 @@ invCont.buildModifyInventoryView = async function (req, res, next) {
     inv_price: inventoryItemData.inv_price,
     inv_miles: inventoryItemData.inv_miles,
     inv_color: inventoryItemData.inv_color,
-    classification_id: inventoryItemData.classification_id, 
+    classification_id: inventoryItemData.classification_id,
     accountData: res.locals.accountData
   })
 };
