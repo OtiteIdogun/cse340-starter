@@ -31,7 +31,7 @@
   <fieldset>
     <legend>Edit Inventory Vehicle</legend>
 
-    <label for="classification_name">Classification: </label>
+    <label for="classification-list">Classification: </label>
     <%- classificationSelectionOptionsList %>
 
     <label for="inv_make">Make: </label>
@@ -53,9 +53,8 @@
            value="<%= inv_year %>"><br>
 
     <label for="inv_description">Description: </label>
-    <textarea type="text" 
-           name="inv_description" 
-           id="inv_description" ><%= inv_description %></textarea><br>
+    <textarea name="inv_description" 
+              id="inv_description" ><%= inv_description %></textarea><br>
 
     <label for="inv_image">Image: </label>
     <input type="text" 
