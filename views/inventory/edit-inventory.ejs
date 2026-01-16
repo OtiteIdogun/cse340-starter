@@ -27,7 +27,7 @@
 
 <%# editInventoryForm %>
 
-<form action="/inv/update" method="POST" id="edit-inventory-form">
+<form action="/inv/update-inventory" method="POST" id="edit-inventory-form">
   <fieldset>
     <legend>Edit Inventory Vehicle</legend>
 
@@ -85,7 +85,20 @@
            name="inv_color" 
            id="inv_color" 
            value="<%= inv_color %>"><br>
+
+    <input type="hidden" name="inv_id" value="<%= inv_id %>">
+
+    <%# OR - Use `locals.inv_id` if `inv_id` exists in the locals object %> 
+    <!--
+       <input type="hidden" name="inv_id"
+       <%# if(locals.inv_id) { %> 
+            value="<%# locals.inv_id %>"
+       <%# } %>
+       ><br>
+    -->
   </fieldset>
 
-  <button type="submit">Update Inventory</button>
+  <button type="submit" disabled>Update Inventory</button>
 </form>
+
+<script src="../../js/inv-update.js"></script>
