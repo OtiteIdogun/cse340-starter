@@ -26,7 +26,8 @@ async function getInventoryByClassificationId(classification_id) {
       `SELECT * FROM public.inventory AS i 
       JOIN public.classification AS c 
       ON i.classification_id = c.classification_id 
-      WHERE i.classification_id = $1`,  // Use a parameterized query to prevent SQL injection.
+      WHERE i.classification_id = $1
+      ORDER BY i.inv_id`,  // Sort the results by inv_id. Also, query used a parameterized query `$1` to prevent SQL injection.
       [classification_id] // Bind the classification ID to the query.
     );
 
@@ -115,8 +116,9 @@ getClassificationName = async (classification_id) => {
 addNewInventoryItem = async (classification_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color) => {
   try {
     let sql = `INSERT INTO public.inventory 
-               (inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) 
-               VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
+                   (inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) 
+               VALUES 
+                   ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
     const data = await pool.query(sql, [inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id]);
 
     console.log("(models/inventory-model.js) addNewInventoryItem", data.rows);
@@ -134,6 +136,7 @@ checkExistingInventoryItem = async (inv_make, inv_model, inv_year, inv_color, cl
                  AND inv_year = $3 
                  AND inv_color = $4 
                  AND classification_id = $5`;
+
     const data = await pool.query(sql, [inv_make, inv_model, inv_year, inv_color, classification_id]);
     return data.rowCount > 0;
   } catch (error) {
@@ -144,12 +147,117 @@ checkExistingInventoryItem = async (inv_make, inv_model, inv_year, inv_color, cl
 
 async function getInventoryById(inv_id) {
   try {
-    const sql = "SELECT * FROM public.inventory WHERE inv_id = $1";
+    const sql = `SELECT * FROM public.inventory 
+                 WHERE inv_id = $1
+                 ORDER BY inv_id`;
+
     const data = await pool.query(sql, [inv_id]);
 
     return data.rows[0];
   } catch (error) {
     console.error("getInventoryById error: " + error);
+  }
+}
+
+async function updateInventory(inv_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) {
+  try {
+    const sql = `UPDATE public.inventory 
+                 SET inv_make = $1, 
+                     inv_model = $2, 
+                     inv_year = $3, 
+                     inv_description = $4, 
+                     inv_image = $5, 
+                     inv_thumbnail = $6, 
+                     inv_price = $7, 
+                     inv_miles = $8, 
+                     inv_color = $9, 
+                     classification_id = $10 
+                 WHERE inv_id = $11`;
+                 
+    const data = await pool.query(sql, [inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id, inv_id]);
+    return data; // OR return data.rows // OR return data.rows[0] OR return data.rowCount. The best is to return the entire result object.   
+                /*
+                Note: 
+                - If `return data` is used, the calling function will receive the entire result object, including 
+                  `rows`, `rowCount`, and other metadata. This allows for comprehensive handling of the result.
+
+                - If `return data.rows` is used, the calling function will receive an array of rows returned from 
+                  the query. For an `UPDATE` statement, this may not be applicable unless specified with `RETURNING *`.
+                  
+                  e.g. (example of using RETURNING *)
+                  ===============================================================
+                  const sql =
+                  `UPDATE public.inventory 
+                    SET inv_make = $1, 
+                        inv_model = $2, 
+                        inv_year = $3, 
+                        inv_description = $4,
+                        inv_image = $5, 
+                        inv_thumbnail = $6, 
+                        inv_price = $7, 
+                        inv_miles = $8, 
+                        inv_color = $9, 
+                        classification_id = $10 
+                    WHERE inv_id = $11
+                    RETURNING *; // OR RETURNING inv_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id`.
+
+                    Using RETURNING * helps to return all columns in the table after the update.
+                  
+                - If `return data.rows[0]` is used, the calling function will receive only the first row of the 
+                  result set. For an `UPDATE`, this typically yields `undefined` unless the query explicitly returns 
+                  rows.
+
+                  e.g. (example of returning with data.rows[0] after using `RETURNING *` in the update)
+                  ===============================================================
+                  ```js
+                  console.log("(models/inventory-model.js) updateInventory", data.rows[0]);
+                  ```
+
+                  OUTPUT - the console.log below would show `undefined` unless `RETURNING *` is added to the SQL statement.:
+                  ```
+                  (models/inventory-model.js) updateInventory undefined
+                  ```
+
+                  If using `RETURNING *`, it would return the updated row.
+                  OUTPUT:
+                  ```
+                  (models/inventory-model.js) updateInventory {
+                    inv_id: 1,
+                    inv_make: 'Honda',
+                    inv_model: 'Civic',
+                    inv_year: 2022,
+                    inv_description: 'A great car',
+                    inv_image: 'https://example.com/image.jpg',
+                    inv_thumbnail: 'https://example.com/thumbnail.jpg',
+                    inv_price: 25000, 
+                    inv_miles: 10000,
+                    inv_color: 'Red', 
+                    classification_id: 1
+                  }
+                  ```
+                  ===============================================================
+
+                - If `return data.rowCount` is used, the calling function will receive the number of rows affected 
+                  by the `UPDATE` statement. This is useful for confirming whether any records were updated.
+
+                  e.g. (Example of using data.rowCount after using `RETURNING *` in the update)
+                  ===============================================================
+                  ```js
+                  console.log("(models/inventory-model.js) updateInventory", data.rowCount);
+                  ```
+
+                  OUTPUT:
+                  ```
+                  (models/inventory-model.js) updateInventory 1
+                  ```
+                  ===============================================================
+
+                In all cases, the calling function in the controller must be updated to handle the returned value 
+                appropriately based on which return statement is implemented.
+                */ 
+
+  } catch (error) {
+    console.error("updateInventory error: " + error);
   }
 }
 
@@ -166,5 +274,6 @@ module.exports = {
   getClassificationName,
   addNewInventoryItem,
   checkExistingInventoryItem,
-  getInventoryById
+  getInventoryById,
+  updateInventory
 };
