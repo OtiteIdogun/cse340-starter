@@ -26,17 +26,17 @@ let pool;
 // Check if the environment is 'development'.
 if (process.env.NODE_ENV == "development") {
 
-  // Create a connection pool (recommended for efficiency)
-  pool = new Pool(dbConfig);
+  // // Create a connection pool (recommended for efficiency)
+  // pool = new Pool(dbConfig);
   
-  // // Create a new Pool instance for PostgreSQL with SSL configuration for development.
-  // pool = new Pool({
-  //   connectionString: process.env.DATABASE_URL, // Use the DATABASE_URL environment variable to establish the connection.
-  //   ssl: {
-  //     // SSL settings to allow self-signed certificates during development.
-  //     rejectUnauthorized: false,  // Accept connections even if the certificate is not authorized.
-  //   },
-  // });
+  // Create a new Pool instance for PostgreSQL with SSL configuration for development.
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL, // Use the DATABASE_URL environment variable to establish the connection.
+    ssl: {
+      // SSL settings to allow self-signed certificates during development.
+      rejectUnauthorized: false,  // Accept connections even if the certificate is not authorized.
+    },
+  });
 
   // Export an object with a query method for executing SQL queries.
   module.exports = {
