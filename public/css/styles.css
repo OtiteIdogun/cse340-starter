@@ -881,7 +881,7 @@ form a:hover {
   border-bottom: 1px solid #ddd;
 }
 
-.inventory-management-container table #update {
+.inventory-management-container table a {
   margin-left: 8px;
   color: var(--primary-color); /* Blue link color - good contrast */
   text-decoration: none;
